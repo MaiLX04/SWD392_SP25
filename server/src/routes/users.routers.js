@@ -1,7 +1,7 @@
 import express from 'express'
 import { Router } from 'express'
 import { loginValidator, registerValidator } from '../middlewares/users.middlewares.js'
-import { loginController, registerController } from '../controllers/users.controllers.js'
+import { userController } from '../controllers/users.controllers.js'
 import { wrapAsync } from '../utils/handler.js'
 //tạo Router
 const usersRouter = Router()
@@ -18,8 +18,10 @@ const usersRouter = Router()
         date_of_birth: string nhưng có dạng ISO8601
     }
  */
-usersRouter.post('/register', registerValidator, wrapAsync(registerController))
+usersRouter.post('/register', registerValidator, wrapAsync(userController.register))
 
-usersRouter.post('/login', loginValidator, loginController)
+usersRouter.post('/login', loginValidator, userController.login)
+
+usersRouter.get('/view', userController.getUserProfile)
 
 export default usersRouter

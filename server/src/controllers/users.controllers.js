@@ -2,13 +2,13 @@
 
 import User from '../models/schemas/User.schema.js'
 import databaseServices from '../services/database.services.js'
-import usersServices from '../services/users.services.js'
+import { usersServices } from '../services/users.services.js'
 
 //route này nhận vào email và password để tạo tài khoản cho mình
 //nhưng trong lúc tạo tài khoản ta dùng insertOne(là 1 promise)
 //nên ta sẽ dùng async await để xử lý bất đồng bộ
 //và rất có thể trong quá trình get data từ database mình sẽ gặp lỗi, nên phải try catch
-export const registerController = async (req, res) => {
+const register = async (req, res) => {
   // lấy email và password từ req.body mà người dùng muốn đăng kí tài khoản
   const { email, password } = req.body
 
@@ -31,7 +31,7 @@ export const registerController = async (req, res) => {
   })
 }
 
-export const loginController = (req, res) => {
+const login = (req, res) => {
   //thêm tý logic vào đây trước khi trả kết quả cho người dùng
   const { email, password } = req.body
   //mình xà lơ, vì mình chưa có database
@@ -48,4 +48,16 @@ export const loginController = (req, res) => {
       error: 'Invalid email or password'
     })
   }
+}
+
+const getUserProfile = async (req, res) => {
+  try {
+    const profile = await usersServices.getUserProfile(id) //tu tu chua xong, tuy vao phuong thuc dang nhap jwt/json session
+  } catch (error) { next(error) }
+}
+
+export const userController = {
+  register,
+  login,
+  getUserProfile
 }
