@@ -11,30 +11,24 @@ import usersServices from '../services/users.services.js'
 export const registerController = async (req, res) => {
   // lấy email và password từ req.body mà người dùng muốn đăng kí tài khoản
   const { email, password } = req.body
-  try {
-    //kiểm tra email đc gửi lên có tồn tại chưa
-    const isDub = await usersServices.checkEmailExist(req.body.email)
-    if (isDub) {
-      //sẽ không hiện được message vì Error có message là enumerable: false
-      const errorCustom = new Error('Email already exists') //ta phải set lại enumerable: true
-      Object.defineProperty(errorCustom, 'message', {
-        enumerable: true
-      })
-      throw errorCustom
-    }
 
-    const result = await usersServices.register(req.body)
-    // console.log(result)
-    return res.status(200).json({
-      message: 'Register success', //chỉnh lại thông báo
-      result: result
+  //kiểm tra email đc gửi lên có tồn tại chưa
+  const isDub = await usersServices.checkEmailExist(req.body.email)
+  if (isDub) {
+    //sẽ không hiện được message vì Error có message là enumerable: false
+    const errorCustom = new Error('Email already exists') //ta phải set lại enumerable: true
+    Object.defineProperty(errorCustom, 'message', {
+      enumerable: true
     })
-  } catch (err) {
-    return res.status(400).json({
-      message: 'Register failed', //chỉnh lại thông báo
-      err: err
-    })
+    throw errorCustom
   }
+
+  const result = await usersServices.register(req.body)
+  // console.log(result)
+  return res.status(200).json({
+    message: 'Register success', //chỉnh lại thông báo
+    result: result
+  })
 }
 
 export const loginController = (req, res) => {
