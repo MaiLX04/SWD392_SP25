@@ -52,8 +52,21 @@ const login = (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const profile = await usersServices.getUserProfile(id) //tu tu chua xong, tuy vao phuong thuc dang nhap jwt/json session
-  } catch (error) { next(error) }
+    console.log(req.params.id)
+    const user = await usersServices.getUserProfile(req.params.id)
+    console.log(user)
+    return res.status(200).json({
+      message: 'success',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        date_of_birth: user.date_of_birth
+      }
+    }) //??
+  } catch (err) {
+    return res.status(500).json({ message: 'Internal server error', error: err.message });
+  }
 }
 
 export const userController = {

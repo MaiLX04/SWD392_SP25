@@ -1,6 +1,7 @@
 import User from '../models/schemas/User.schema.js'
 import databaseServices from './database.services.js'
 import { hashPassword } from '../utils/crypto.js'
+import { userModel } from '../models/schemas/userModel.js'
 
 //viết hàm dùng jwt để ký access_token
 const signAccessToken = async (user_id) => {
@@ -70,11 +71,23 @@ const register = async (payload) => {
   //thay vì return user_id về cho client
 }
 
+const getUserProfile = async(userId) => {
+  try {
+    const user = userModel.getUserProfile(userId)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    } else return user
+  } catch (error) {
+    throw error
+  }
+}
+
 export const usersServices = {
   signAccessToken,
   signRefreshToken,
   signEmailVerifyToken,
   signForgotPasswordToken,
   checkEmailExist,
-  register
+  register,
+  getUserProfile
 }

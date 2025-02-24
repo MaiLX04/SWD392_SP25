@@ -22,6 +22,6 @@ usersRouter.post('/register', registerValidator, wrapAsync(userController.regist
 
 usersRouter.post('/login', loginValidator, userController.login)
 
-usersRouter.get('/view', userController.getUserProfile)
+usersRouter.get('/:id', userController.getUserProfile)
 
 export default usersRouter
