@@ -5,7 +5,7 @@ dotenv.config()
 // signToken là hàm kí token
 export const signToken = ({
   payload, //
-  privateKey = process.env.JWT_SECRET,
+  privateKey,
   options = { algorithm: 'HS256' }
 }) => {
   return new Promise((resolve, reject) => {

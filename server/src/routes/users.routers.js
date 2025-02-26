@@ -20,8 +20,22 @@ const usersRouter = Router()
  */
 usersRouter.post('/register', registerValidator, wrapAsync(userController.register))
 
-usersRouter.post('/login', loginValidator, userController.login)
+/*
+    description: Login
+    path: /login
+    method: POST
+    body: {
+        email: string,
+        password: string
+    }
+*/
+usersRouter.post('/login', loginValidator, wrapAsync(userController.login))
 
+/*
+    description: view profile
+    path: /:id
+    method: GET
+*/
 usersRouter.get('/:id', userController.getUserProfile)
 
 export default usersRouter

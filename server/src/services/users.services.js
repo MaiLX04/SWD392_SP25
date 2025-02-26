@@ -2,6 +2,14 @@ import User from '../models/schemas/User.schema.js'
 import databaseServices from './database.services.js'
 import { hashPassword } from '../utils/crypto.js'
 import { userModel } from '../models/schemas/userModel.js'
+import { signToken } from '../utils/jwt.js'
+import { ErrorWithStatus } from '../models/Errors.js'
+import { USERS_MESSAGES } from '../constants/messages.js'
+import { ObjectId } from 'mongodb'
+import { TokenType } from '../constants/enums.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 //viết hàm dùng jwt để ký access_token
 const signAccessToken = async (user_id) => {
@@ -19,6 +27,10 @@ const signRefreshToken = async (user_id) => {
     privateKey: process.env.JWT_SECRET_REFRESH_TOKEN,
     options: { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_IN }
   })
+}
+
+const signAccessAndRefreshToken = async (user_id) => {
+  return Promise.all([signAccessToken(user_id), signRefreshToken(user_id)])
 }
 
 //viết hàm dùng jwt để kí email_verify_token
@@ -46,8 +58,10 @@ const checkEmailExist = async (email) => {
 
 const register = async (payload) => {
   // const { email, password } = payload
+  let userId = new ObjectId()
   const result = await databaseServices.users.insertOne(
     new User({
+      _id: userId,
       ...payload,
       date_of_birth: new Date(payload.date_of_birth),
       //vì User.schema.ts có date_of_birth là Date
@@ -55,20 +69,42 @@ const register = async (payload) => {
       password: hashPassword(payload.password)
     })
   )
-  //insertOne sẽ trả về 1 object, trong đó có thuộc tính insertedId là user_id của user vừa tạo
-  //vì vậy ta sẽ lấy user_id đó ra để tạo token
-  const user_id = result.insertedId.toString()
+
   // const access_token = await this.signAccessToken(user_id)
   // const refresh_token = await this.signRefreshToken(user_id)
   //nên viết là thì sẽ giảm thời gian chờ 2 cái này tạo ra
-  const [access_token, refresh_token] = await Promise.all([
-    this.signAccessToken(user_id),
-    this.signRefreshToken(user_id)
-  ]) //đây cũng chính là lý do mình chọn xử lý bất đồng bộ, thay vì chọn xử lý đồng bộ
+  // const [access_token, refresh_token] = await Promise.all([
+  //   this.signAccessToken(user_id),
+  //   this.signRefreshToken(user_id)
+  // ]) //đây cũng chính là lý do mình chọn xử lý bất đồng bộ, thay vì chọn xử lý đồng bộ
+  const [access_token, refresh_token] = await signAccessAndRefreshToken(userId)
   //Promise.all giúp nó chạy bất đồng bộ, chạy song song nhau, giảm thời gian
   return { access_token, refresh_token }
   //ta sẽ return 2 cái này về cho client
   //thay vì return user_id về cho client
+}
+const login = async (email, password) => {
+  //dùng email và password để tìm user
+  const user = await databaseServices.users.findOne({
+    email,
+    password: hashPassword(password)
+  })
+  if (!user) {
+    throw new ErrorWithStatus({
+      message: USERS_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT,
+      status: HTTP_STATUS.UNPROCESSABLE_ENTITY
+    })
+  }
+
+  //nếu có user -> tạo ac và rf token
+  const user_id = user._id.toString()
+  // const [access_token, refresh_token] = await Promise.all([
+  //   signAccessToken(user_id), //
+  //   signRefreshToken(user_id)
+  // ])
+  const [access_token, refresh_token] = await signAccessAndRefreshToken(user_id)
+
+  return { access_token, refresh_token }
 }
 
 const getUserProfile = async(userId) => {
@@ -89,5 +125,6 @@ export const usersServices = {
   signForgotPasswordToken,
   checkEmailExist,
   register,
+  login,
   getUserProfile
 }

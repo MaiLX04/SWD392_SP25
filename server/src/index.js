@@ -1,6 +1,7 @@
 import express from 'express'
 import usersRouter from './routes/users.routers.js'
 import databaseServices from './services/database.services.js'
+import { defaultErrorHandler } from './middlewares/error.middlewares.js'
 
 //dựng server
 const app = express()
@@ -14,10 +15,7 @@ app.use('/user', usersRouter)
 
 //trở thành error handler cho cả app nên nó nằm cuối app để là điểm tập kết cuối cùng
 //xử lí lỗi tổng
-app.use((err, req, res, next) => {
-  console.log('lỗi nè ' + err.message)
-  res.status(400).json({ message: err.message })
-})
+app.use(defaultErrorHandler)
 
 //Cho server mở port ở 3000
 app.listen(port, () => {
