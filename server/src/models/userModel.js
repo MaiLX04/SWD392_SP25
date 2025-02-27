@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import databaseServices from '../../services/database.services.js'
+import databaseServices from '../services/database.services.js'
 
 const getUserProfile = async (userId) => {
     try {

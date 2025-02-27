@@ -62,5 +62,9 @@ export const USERS_MESSAGES = {
   USERNAME_IS_INVALID:
     'Username must be a string and length must be 4 - 15, and contain only letters, numbers, and underscores, not only numbers',
   CHANGE_PASSWORD_SUCCESS: 'Change password successfully',
-  REFRESH_TOKEN_SUCCESS: 'Refresh token change Successfully'
+  REFRESH_TOKEN_SUCCESS: 'Refresh token change Successfully',
+  //Product and others
+  EMPTY_DESCRIPTION : 'Please fill in description',
+  EMPTY_PRICE: 'Please fill in price',
+  EMPTY_PHOTO: 'Please upload product photos'
 }
