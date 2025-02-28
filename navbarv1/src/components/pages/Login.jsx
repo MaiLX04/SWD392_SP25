@@ -11,7 +11,7 @@ export default function Login() {
   // Mock test users
   const testUsers = [
     { email: "huy@example.com", password: "pass123" },
-    { email: "liem@example.com", password: "passs456" },
+    { email: "liem@example.com", password: "pass456" },
   ];
 
   const handleSubmit = (e) => {
@@ -37,11 +37,11 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="form-wrapper">
+    <div className="login_window">
+      <div className="login_form">
         <h2>Sign in to your account</h2>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="input_field">
             <input
               type="email"
               value={email}
@@ -50,7 +50,7 @@ export default function Login() {
               placeholder="Email address"
             />
           </div>
-          <div>
+          <div className="input_field">
             <input
               type="password"
               value={password}
@@ -59,12 +59,7 @@ export default function Login() {
               placeholder="Password"
             />
           </div>
-          <div className="form-options">
-            <div className="remember-me">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
-            </div>
-
+          <div>
             <Link to="/register">Don't have account yet?</Link>
           </div>
           <button type="submit">Sign in</button>

@@ -25,8 +25,8 @@ export default function Register() {
   };
 
   return (
-    <div className="register-container">
-      <div className="form-wrapper">
+    <div className="register_window">
+      <div className="register_form">
         <h2>Create your account</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
