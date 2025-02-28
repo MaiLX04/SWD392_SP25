@@ -1,50 +1,78 @@
-import React, { useState } from "react";
+// src/components/RegisterForm.jsx
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Register.css";
 
-const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Register() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("Username:", username);
-    console.log("Password:", password);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+    console.log("Register:", formData);
+  };
+
   return (
-    <div className="Loginpage">
-      {" "}
-      {/* Apply the App class for background styling */}
-      <div className="auth-form-container">
-        {" "}
-        {/* Container for the form */}
-        <h2>Register</h2>
-        <form className="login-form" onSubmit={handleLogin}>
-          {" "}
-          {/* Apply the login-form class */}
-          <div>
-            <label htmlFor="username">Username:</label>
+    <div className="register-container">
+      <div className="form-wrapper">
+        <h2>Create your account</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
             <input
+              name="username"
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
               required
+              placeholder="Username"
             />
           </div>
-          <div>
-            <label htmlFor="password">Password:</label>
+          <div className="input-group">
             <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
               required
+              placeholder="Email address"
             />
           </div>
+          <div className="input-group">
+            <input
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              placeholder="Password"
+            />
+          </div>
+          <div className="input-group">
+            <input
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              placeholder="Confirm Password"
+            />
+          </div>
+          <Link to="/login">Already have an account?</Link>
           <button type="submit">Register</button>
         </form>
       </div>
     </div>
   );
-};
-
-export default Register;
+}

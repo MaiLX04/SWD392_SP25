@@ -1,57 +1,52 @@
-/* Login.css */
-.Loginpage {
-  text-align: center;
-  display: flex;
+.login-container {
   min-height: 100vh;
+  display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-image: linear-gradient(79deg, #7439db, #c66fbc 48%, #f7944d);
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  height: 100%; /* Ensure the body takes up the full height */
+  background-color: #f5f5f5;
 }
 
-.auth-form-container,
-.login-form,
-.register-form {
+.form-wrapper {
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+form {
   display: flex;
   flex-direction: column;
-  animation: slideInLeft 0.5s ease-in-out;
+  gap: 1rem;
 }
 
-.auth-form-container h2 {
-  margin-bottom: 20px; /* Add some space below the heading */
+input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
-.auth-form-container input {
-  margin-bottom: 15px; /* Space between input fields */
-  padding: 10px; /* Padding for input fields */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.auth-form-container button {
-  padding: 10px; /* Padding for the button */
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
+.remember-me {
+  display: flex;
+  align-items: center;
 }
 
-.auth-form-container button:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-/* Animation */
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.remember-me label {
+  font-size: 0.875rem;
+  color: #666;
 }

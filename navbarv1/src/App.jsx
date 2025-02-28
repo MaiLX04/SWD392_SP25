@@ -2,14 +2,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import About from "./components/pages/About";
-import Contact from "./components/pages/Contact";
+import { Accessory } from "./components/pages/Accessory";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
-import { Services } from "./components/pages/Services";
+import Tradelist from "./components/pages/Tradelist";
 
 function App() {
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
 
   return (
     <div className="App">
@@ -20,8 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/services" element={<Services />} />
+        <Route path="/tradelist" element={<Tradelist />} />
+        <Route path="/accessory" element={<Accessory />} />
         <Route path="/login" element={<Login hideNavBar={true} />} />
         <Route path="/register" element={<Register hideNavBar={true} />} />
       </Routes>
