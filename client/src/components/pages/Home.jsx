@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";  // ⬅ Import useNavigate
-
+import { useNavigate } from "react-router-dom";  
 import "bootstrap/dist/css/bootstrap.min.css";
 import BabyThree from "../../assets/BabyThree.jpg";
 import Haveaseat from "../../assets/Haveaseat.jpg";
@@ -10,7 +9,7 @@ import Cocacola from "../../assets/Cocacola.jpg";
 import "./Home.css";
 
 const Home = () => {
-  const navigate = useNavigate(); // ⬅ Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const products = [
     {
