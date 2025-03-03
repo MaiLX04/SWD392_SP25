@@ -7,7 +7,7 @@ export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [showLogoutPopup, setShowLogoutPopup] = useState(false); // State for popup
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,9 +44,7 @@ export const Navbar = () => {
 
       <div
         className="menu"
-        onClick={() => {
-          setMenuOpen(!menuOpen);
-        }}
+        onClick={() => setMenuOpen(!menuOpen)}
       >
         <span></span>
         <span></span>
@@ -55,17 +53,17 @@ export const Navbar = () => {
 
       <ul className={menuOpen ? "open" : ""}>
         <li>
-          <NavLink to="/about" activeClassName="active">
+          <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
             About
           </NavLink>
         </li>
         <li>
-          <NavLink to="/accessory" activeClassName="active">
+          <NavLink to="/accessory" className={({ isActive }) => (isActive ? "active" : "")}>
             Accessory
           </NavLink>
         </li>
         <li>
-          <NavLink to="/tradelist" activeClassName="active">
+          <NavLink to="/tradelist" className={({ isActive }) => (isActive ? "active" : "")}>
             Trade List
           </NavLink>
         </li>
@@ -76,10 +74,7 @@ export const Navbar = () => {
               <FaUser /> @{username}
             </span>
 
-            <button
-              className="logout_button"
-              onClick={() => setShowLogoutPopup(true)}
-            >
+            <button className="logout_button" onClick={() => setShowLogoutPopup(true)}>
               Log out
             </button>
           </li>

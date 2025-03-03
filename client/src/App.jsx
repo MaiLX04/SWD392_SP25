@@ -7,6 +7,8 @@ import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Tradelist from "./components/pages/Tradelist";
+import OfferPage from "./components/pages/OfferPage"; // Thêm OfferPage
+import ProductPage from "./components/pages/ProductPage"; // Thêm ProductPage
 
 function App() {
   const location = useLocation();
@@ -24,6 +26,8 @@ function App() {
         <Route path="/accessory" element={<Accessory />} />
         <Route path="/login" element={<Login hideNavBar={true} />} />
         <Route path="/register" element={<Register hideNavBar={true} />} />
+        <Route path="/offer/:id" element={<OfferPage />} /> {/* Thêm route OfferPage */}
+        <Route path="/product/:id" element={<ProductPage />} /> {/* Thêm route ProductPage */}
       </Routes>
     </div>
   );
