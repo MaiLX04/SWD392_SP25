@@ -7,7 +7,8 @@ import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Tradelist from "./components/pages/Tradelist";
-import OfferPage from "./components/pages/OfferPage"; // Thêm OfferPage
+import { OfferPage } from "./components/pages/OfferPage";
+
 import ProductPage from "./components/pages/ProductPage"; // Thêm ProductPage
 
 function App() {
