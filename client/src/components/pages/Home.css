@@ -8,3 +8,23 @@
   object-fit: cover;
   display: block;
 }
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.overlay-buttons {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}

@@ -1,5 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";  // ⬅ Import useNavigate
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import BabyThree from "../../assets/BabyThree.jpg";
 import Haveaseat from "../../assets/Haveaseat.jpg";
@@ -8,6 +10,8 @@ import Cocacola from "../../assets/Cocacola.jpg";
 import "./Home.css";
 
 const Home = () => {
+  const navigate = useNavigate(); // ⬅ Initialize useNavigate
+
   const products = [
     {
       id: 1,
@@ -19,7 +23,7 @@ const Home = () => {
     {
       id: 2,
       category: "BLINDBOX",
-      name: "Labubu Exciting Macaron ",
+      name: "Labubu Exciting Macaron",
       price: "500.000₫",
       image: ExcitingMacaron,
     },
@@ -37,19 +41,12 @@ const Home = () => {
       price: "8.390.000₫",
       image: Cocacola,
     },
- 
   ];
-
-
 
   return (
     <div className="home">
       {/* Ảnh quảng cáo */}
-      <img
-        src={BabyThree}
-        alt="Baby Three Advertisement"
-        className="advert_image"
-      />
+      <img src={BabyThree} alt="Baby Three Advertisement" className="advert_image" />
 
       {/* Section New Arrival */}
       <Container className="text-center my-5">
@@ -58,7 +55,26 @@ const Home = () => {
           {products.map((product) => (
             <Col key={product.id} md={3} sm={6} xs={12} className="mb-4">
               <Card className="border-0">
-                <Card.Img variant="top" src={product.image} alt={product.name} />
+                <div className="image-container">
+                  <Card.Img variant="top" src={product.image} alt={product.name} />
+                  <div className="overlay-buttons">
+                    <Button
+                      variant="primary"
+                      className="btn-sm me-2"
+                      onClick={() => navigate(`/product/${product.id}`)}
+                    >
+                      View
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="btn-sm"
+                      onClick={() => navigate(`/offer/${product.id}`)}
+                    >
+                      Offer
+                    </Button>
+                  </div>
+                </div>
+
                 <Card.Body>
                   <p className="text-muted text-uppercase">{product.category}</p>
                   <h6 className="fw-bold">{product.name}</h6>
