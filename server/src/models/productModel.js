@@ -1,12 +1,9 @@
 import { ObjectId } from 'mongodb'
 import databaseServices from '../services/database.services.js'
 
-const postAccessories = async (data) => {
+const postAccessories = async (reqBody) => {
     try {
-        // const newAccessories = {
-            // ...
-        // }
-        // return databaseServices.users.findOne({ _id: new ObjectId(userId) })
+        // return databaseServices. 
     } catch (error) { throw new Error(error) }
 }
 

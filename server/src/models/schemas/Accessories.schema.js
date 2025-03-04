@@ -7,5 +7,7 @@ export default class accessories {
         this.description = accessories.description
         this.price = accessories.price
         this.photo = accessories.photo
+        this.status = accessories.status
+        this.date_added = accessories.date_added
     }
 }
