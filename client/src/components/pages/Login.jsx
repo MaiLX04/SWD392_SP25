@@ -1,34 +1,26 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { mockUsers } from "./mockData.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Added for error feedback
-  const navigate = useNavigate(); // For redirecting after login
-
-  // Mock test users
-  const testUsers = [
-    { email: "huy@example.com", password: "pass123" },
-    { email: "liem@example.com", password: "pass456" },
-  ];
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(""); // Reset error state
+    setError("");
 
-    // Check if the entered credentials match any test user
-    const user = testUsers.find(
+    const user = mockUsers.find(
       (u) => u.email === email && u.password === password
     );
 
     if (user) {
       console.log("Login successful:", { email });
       localStorage.setItem("isLoggedIn", "true");
-      // Store a mock username based on the email (or fetch from backend later)
-      const mockUsername = email.split("@")[0]; // e.g., "test1" from "test1@example.com"
-      localStorage.setItem("username", mockUsername);
+      localStorage.setItem("username", user.username);
       navigate("/");
     } else {
       setError("Invalid email or password");

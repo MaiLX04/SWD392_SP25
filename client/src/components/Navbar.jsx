@@ -33,7 +33,7 @@ export const Navbar = () => {
     setUsername("");
     setShowLogoutPopup(false);
     window.dispatchEvent(new Event("storage"));
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -42,10 +42,7 @@ export const Navbar = () => {
         Website
       </Link>
 
-      <div
-        className="menu"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
         <span></span>
         <span></span>
         <span></span>
@@ -53,17 +50,26 @@ export const Navbar = () => {
 
       <ul className={menuOpen ? "open" : ""}>
         <li>
-          <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
+          <NavLink
+            to="/about"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             About
           </NavLink>
         </li>
         <li>
-          <NavLink to="/accessory" className={({ isActive }) => (isActive ? "active" : "")}>
+          <NavLink
+            to="/accessory"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Accessory
           </NavLink>
         </li>
         <li>
-          <NavLink to="/tradelist" className={({ isActive }) => (isActive ? "active" : "")}>
+          <NavLink
+            to="/tradelist"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Trade List
           </NavLink>
         </li>
@@ -74,7 +80,10 @@ export const Navbar = () => {
               <FaUser /> @{username}
             </span>
 
-            <button className="logout_button" onClick={() => setShowLogoutPopup(true)}>
+            <button
+              className="logout_button"
+              onClick={() => setShowLogoutPopup(true)}
+            >
               Log out
             </button>
           </li>

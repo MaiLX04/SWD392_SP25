@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Tradelist.css";
 
 const TradeBlock = ({ trade, onAccept, onDeny }) => {
@@ -31,62 +31,43 @@ const TradeBlock = ({ trade, onAccept, onDeny }) => {
 };
 
 const Tradelist = () => {
-  const [trades, setTrades] = useState([
-    {
-      id: 1,
-      sender: "User1",
-      offer: "Rare Card",
-      request: "Gold Coin",
-      status: "pending",
-    },
-    {
-      id: 2,
-      sender: "User2",
-      offer: "Silver Sword",
-      request: "Magic Gem",
-      status: "pending",
-    },
-    {
-      id: 3,
-      sender: "User3",
-      offer: "Bronze Shield",
-      request: "Healing Potion",
-      status: "pending",
-    },
-    {
-      id: 4,
-      sender: "User5",
-      offer: "Bronze Sword",
-      request: "Attack Potion",
-      status: "pending",
-    },
-    {
-      id: 5,
-      sender: "User6",
-      offer: "Bronze Armor",
-      request: "Magic Potion",
-      status: "pending",
-    },
-    {
-      id: 6,
-      sender: "User4",
-      offer: "Bronze Pickaxe",
-      request: "Agility Potion",
-      status: "pending",
-    },
-  ]);
+  const currentUser = localStorage.getItem("username") || "guest";
+  const [trades, setTrades] = useState([]);
+  useEffect(() => {
+    const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
+    console.log("All trades from localStorage:", allTrades);
+    console.log("Current user (owner):", currentUser);
+    const userTrades = allTrades.filter((trade) => trade.owner === currentUser);
+    console.log("Filtered trades:", userTrades);
+    setTrades(userTrades);
+  }, [currentUser]);
 
   const handleAccept = (tradeId) => {
-    setTrades(
-      trades.map((trade) =>
+    const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
+    const updatedTrades = allTrades.map((trade) =>
+      trade.id === tradeId ? { ...trade, status: "accepted" } : trade
+    );
+    localStorage.setItem("trades", JSON.stringify(updatedTrades));
+
+    const acceptedTrade = updatedTrades.find((t) => t.id === tradeId);
+    setTrades((prev) =>
+      prev.map((trade) =>
         trade.id === tradeId ? { ...trade, status: "accepted" } : trade
       )
     );
+
+    alert("Chat opened between ${acceptedTrade.sender} and ${currentUser}");
   };
 
   const handleDeny = (tradeId) => {
-    setTrades(
-      trades.map((trade) =>
+    const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
+    const updatedTrades = allTrades.map((trade) =>
+      trade.id === tradeId ? { ...trade, status: "denied" } : trade
+    );
+    localStorage.setItem("trades", JSON.stringify(updatedTrades));
+
+    setTrades((prev) =>
+      prev.map((trade) =>
         trade.id === tradeId ? { ...trade, status: "denied" } : trade
       )
     );
