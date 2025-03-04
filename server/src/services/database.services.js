@@ -30,6 +30,10 @@ class DatabaseServices {
     return this.db.collection(process.env.DB_USERS_COLLECTION)
   }
 
+  get tradeRequests() {
+    return this.db.collection(process.env.DB_REQUESTS_COLLECTION)
+  }
+
   //   get refresh_tokens() {
   //     return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION)
   //   }

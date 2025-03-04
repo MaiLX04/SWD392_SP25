@@ -45,6 +45,7 @@ export const USERS_MESSAGES = {
   VERIFY_FORGOT_PASSWORD_TOKEN_SUCCESS: 'Verify forgot password token success',
   RESET_PASSWORD_SUCCESS: 'Reset password successfully',
   GET_PROFILE_SUCCESS: 'Get profile successfully',
+  USER_ROLE_IS_NOT_SUITABLE: 'User role is not suitable for this action',
 
   BIO_MUST_BE_A_STRING: 'Bio must be a string',
   BIO_LENGTH_MUST_BE_LESS_THAN_200: 'Bio length must be less than 200',
@@ -63,4 +64,10 @@ export const USERS_MESSAGES = {
     'Username must be a string and length must be 4 - 15, and contain only letters, numbers, and underscores, not only numbers',
   CHANGE_PASSWORD_SUCCESS: 'Change password successfully',
   REFRESH_TOKEN_SUCCESS: 'Refresh token change Successfully'
+}
+
+export const TRADE_REQUESTS_MESSAGES = {
+  GET_TRADE_REQUESTS_SUCCESS: 'Get trade request success',
+  ITEM_MUST_HAVE_NAME: 'Item must have name',
+  CREATE_REQUEST_SUCCESSFULLY: 'Create request successfully'
 }

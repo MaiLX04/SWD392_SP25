@@ -1,5 +1,4 @@
 //controllers là tầng xử lí logic và call database thông qua services
-
 import User from '../models/schemas/User.schema.js'
 import databaseServices from '../services/database.services.js'
 import { usersServices } from '../services/users.services.js'
@@ -25,10 +24,10 @@ const register = async (req, res) => {
   }
 
   const result = await usersServices.register(req.body)
-  console.log(result)
+  // console.log(result)
   res.status(HTTP_STATUS.OK).json({
     message: USERS_MESSAGES.REGISTER_SUCCESS, //chỉnh lại thông báo
-    result: result
+    id: result
   })
 }
 
@@ -38,10 +37,10 @@ const login = async (req, res) => {
   //nếu có thì tạo access và refresh token
   const { email, password } = req.body
   //usersService.login là hàm nhận vào email và password, rồi vào database tìm user và tạo access token và refresh token trả ra ngoài
-  const result = await usersServices.login(email, password)
+  const id = await usersServices.login(email, password)
   res.status(HTTP_STATUS.OK).json({
     message: USERS_MESSAGES.LOGIN_SUCCESS,
-    result: result
+    id: id
   })
 }
 
@@ -60,7 +59,7 @@ const getUserProfile = async (req, res) => {
       }
     })
   } catch (err) {
-    return res.status(500).json({ message: 'Internal server error', error: err.message });
+    return res.status(500).json({ message: 'Internal server error', error: err.message })
   }
 }
 

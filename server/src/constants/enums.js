@@ -44,3 +44,27 @@ export class TokenType {
     return this._EmailVerificationToken
   }
 }
+
+export class TradeRequestStatus {
+  static _Ended = 0
+  static _Pending = 1
+
+  static get Ended() {
+    return this._Ended
+  }
+  static get Pending() {
+    return this._Pending
+  }
+}
+
+export class MediaType {
+  static _Image = 0
+  static _Video = 1
+
+  static get Image() {
+    return this._Image
+  }
+  static get Video() {
+    return this._Video
+  }
+}
