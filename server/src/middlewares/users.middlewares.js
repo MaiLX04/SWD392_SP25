@@ -91,6 +91,7 @@ const dateOfBirthSchema = {
     errorMessage: USERS_MESSAGES.DATE_OF_BIRTH_BE_ISO8601
   }
 }
+
 //PARAMSCHEMA
 
 //viết hàm kiểm tra req body của chức năng đăng kí
