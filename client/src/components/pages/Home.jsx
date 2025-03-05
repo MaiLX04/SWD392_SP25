@@ -11,7 +11,7 @@ import { mockUsers } from "./mockData.js";
 
 const Home = () => {
   const navigate = useNavigate();
-  const currentUser = localStorage.getItem("username") || "guest";
+  const currentUser = localStorage.getItem("username");
 
   const products = [
     {
@@ -35,12 +35,16 @@ const Home = () => {
     {
       id: 4,
       name: "MR BONE DOUBLE EDGED",
-      owner: mockUsers[0].username,
+      owner: mockUsers[3].username,
       image: Cocacola,
     },
   ];
 
-  const handleOffer = (productID) => {
+  const handleOffer = (productId) => {
+    if (!currentUser) {
+      alert("Please log in to make an offer!");
+      return;
+    }
     const product = products.find((p) => p.id === productId);
     const tradeRequest = {
       id: Date.now(),
@@ -53,17 +57,11 @@ const Home = () => {
 
     const existingTrades = JSON.parse(localStorage.getItem("trades") || "[]");
     const updatedTrades = [...existingTrades, tradeRequest];
+
     localStorage.setItem("trades", JSON.stringify(updatedTrades));
-
-    console.log("Sender:", currentUser);
-    console.log("Owner:", product.owner);
     console.log("Trade saved:", tradeRequest);
-    console.log(
-      "All trades in localStorage:",
-      JSON.parse(localStorage.getItem("trades"))
-    );
 
-    navigate(`/offer/${productId}`);
+    alert(`Trade request sent to ${product.owner}`);
   };
 
   return (

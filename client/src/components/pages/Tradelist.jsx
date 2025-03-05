@@ -33,13 +33,24 @@ const TradeBlock = ({ trade, onAccept, onDeny }) => {
 const Tradelist = () => {
   const currentUser = localStorage.getItem("username") || "guest";
   const [trades, setTrades] = useState([]);
-  useEffect(() => {
+
+  // Add a function to fetch and update trades
+  const updateTrades = () => {
     const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
     console.log("All trades from localStorage:", allTrades);
     console.log("Current user (owner):", currentUser);
+
     const userTrades = allTrades.filter((trade) => trade.owner === currentUser);
+
     console.log("Filtered trades:", userTrades);
     setTrades(userTrades);
+  };
+
+  useEffect(() => {
+    updateTrades();
+    // Optional: Add an interval to check for new trades periodically
+    const interval = setInterval(updateTrades, 5000); // Check every 5 seconds
+    return () => clearInterval(interval);
   }, [currentUser]);
 
   const handleAccept = (tradeId) => {
@@ -48,15 +59,10 @@ const Tradelist = () => {
       trade.id === tradeId ? { ...trade, status: "accepted" } : trade
     );
     localStorage.setItem("trades", JSON.stringify(updatedTrades));
+    updateTrades();
 
     const acceptedTrade = updatedTrades.find((t) => t.id === tradeId);
-    setTrades((prev) =>
-      prev.map((trade) =>
-        trade.id === tradeId ? { ...trade, status: "accepted" } : trade
-      )
-    );
-
-    alert("Chat opened between ${acceptedTrade.sender} and ${currentUser}");
+    alert(`Chat opened between ${acceptedTrade.sender} and ${currentUser}`);
   };
 
   const handleDeny = (tradeId) => {
@@ -65,12 +71,7 @@ const Tradelist = () => {
       trade.id === tradeId ? { ...trade, status: "denied" } : trade
     );
     localStorage.setItem("trades", JSON.stringify(updatedTrades));
-
-    setTrades((prev) =>
-      prev.map((trade) =>
-        trade.id === tradeId ? { ...trade, status: "denied" } : trade
-      )
-    );
+    updateTrades(); // Update the view immediately
   };
 
   return (

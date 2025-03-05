@@ -24,33 +24,28 @@ export default function Login() {
       navigate("/");
     } else {
       setError("Invalid email or password");
-      console.log("Login failed");
     }
   };
 
   return (
     <div className="login_window">
       <div className="login_form">
-        <h2>Sign in to your account</h2>
+        <h2>Sign in your account</h2>
         <form onSubmit={handleSubmit}>
-          <div className="input_field">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Email address"
-            />
-          </div>
-          <div className="input_field">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Password"
-            />
-          </div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="Email address"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Password"
+          />
           <div>
             <Link to="/register">Don't have account yet?</Link>
           </div>
