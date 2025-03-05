@@ -70,3 +70,15 @@ export const createOfferValidator = validate(
     ['body']
   )
 );
+
+export const updateOfferValidator = validate(
+  checkSchema(
+    {
+      offerItem: offerItemSchema,
+      offerDescription: offerDescriptionSchema,
+      offerImage: offerImageSchema,
+      // You might want to add validation for other updatable fields here
+    },
+    ['body']
+  )
+);

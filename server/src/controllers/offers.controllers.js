@@ -42,10 +42,22 @@ const getAllOffersByRequestId = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  const updateOfferByOfferId = async (req, res) => {
+    try {
+      const offerId = req.params.offerId; // Get offerId from the URL parameters
+      const updates = req.body; // Get the updates from the request body
+      const updatedOffer = await offersServices.updateOfferByOfferId(offerId, updates);
+      res.status(200).json(updatedOffer);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
   
 export const offersController = {
   createOffer,
   getAllOffersByRequestId,
   getAllOffers,
-  getOfferByOfferId
+  getOfferByOfferId,
+  updateOfferByOfferId
 };

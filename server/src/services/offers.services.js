@@ -93,10 +93,27 @@ const createOffer = async (payload) => {
     }
   };
 
+  const updateOfferByOfferId = async (offerId, updates) => {
+    try {
+      const result = await databaseServices.offers.findOneAndUpdate(
+        { _id: new ObjectId(offerId) },
+        {
+          $set: { ...updates, updatedAt: new Date() }, // Update updatedAt, keep createdAt unchanged
+        },
+        { returnDocument: 'after' } // Return the updated document
+      );
+      return result.value; // Extract the updated document from the result
+    } catch (error) {
+      console.error('Error updating offer by offer ID:', error);
+      throw error;
+    }
+  };
+
 export const offersServices = {
   createOffer,
   getAllOffersByRequestId,
   getAllOffers,
-  getOfferByOfferId
+  getOfferByOfferId,
+  updateOfferByOfferId
 };
 
