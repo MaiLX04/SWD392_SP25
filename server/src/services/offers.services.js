@@ -58,7 +58,7 @@ const createOffer = async (payload) => {
 
   const getAllOffersByRequestId = async (requestId) => {
     try {
-      const offers = await databaseServices.offers.find({ requestId: new ObjectId(requestId) });
+      const offers = await databaseServices.offers.find({ requestId: new ObjectId(requestId) }).toArray();
       return offers;
     } catch (error) {
       console.error('Error getting offers by request ID:', error);
@@ -68,7 +68,7 @@ const createOffer = async (payload) => {
 
   const getAllOffers = async () => {
     try {
-      const offers = await databaseServices.offers.find({}); // Find all offers
+      const offers = await databaseServices.offers.find({}).toArray(); // Find all offers
       return offers;
     } catch (error) {
       console.error('Error getting all offers:', error);
