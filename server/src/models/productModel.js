@@ -1,22 +1,19 @@
 import { ObjectId } from 'mongodb'
 import databaseServices from '../services/database.services.js'
 
-const postAccessories = async (reqBody) => {
+const postAccessories = async (data) => {
     try {
-        // return databaseServices. 
+        return databaseServices.accessories.insertOne(data) 
     } catch (error) { throw new Error(error) }
 }
 
-const postTradeProduct = async (data) => {
+const createCategories = async (data) => {
     try {
-        // const newAccessories = {
-            // ...
-        // }
-        // return databaseServices.users.findOne({ _id: new ObjectId(userId) })
+        return databaseServices.accessories_categories.insertOne(data) 
     } catch (error) { throw new Error(error) }
 }
 
 export const productModel = {
     postAccessories,
-    postTradeProduct
+    createCategories
 }

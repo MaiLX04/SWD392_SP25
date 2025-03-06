@@ -1,7 +1,7 @@
 import User from '../models/schemas/User.schema.js'
 import databaseServices from './database.services.js'
 import { hashPassword } from '../utils/crypto.js'
-import { userModel } from '../models/schemas/userModel.js'
+import { userModel } from '../models/userModel.js'
 import { signToken } from '../utils/jwt.js'
 import { ErrorWithStatus } from '../models/Errors.js'
 import { USERS_MESSAGES } from '../constants/messages.js'

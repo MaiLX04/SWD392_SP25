@@ -1,48 +1,66 @@
 import { validate } from '../utils/validation.js'
+import { checkSchema } from 'express-validator'
 
-export const AccessoriesValidator = validate(
+const AccessoriesValidator = validate(
   checkSchema(
-    { 
+    {
+      type: {
+        notEmpty: {
+          errorMessage: 'Type is required'
+        }
+      },
+      name: {
+        notEmpty: {
+          errorMessage: 'Name is required'
+        }
+      },
       description: {
         notEmpty: {
-          errorMessage: USERS_MESSAGES.EMPTY_DESCRIPTION
-        },
+          errorMessage: 'Description is required'
+        }
       },
       price: {
         notEmpty: {
-            errorMessage: USERS_MESSAGES.EMPTY_PRICE
-          },
+          errorMessage: 'Price is required'
+        },
+        isNumeric: {
+          errorMessage: 'Price must be a number'
+        }
       },
       photo: {
         notEmpty: {
-            errorMessage: USERS_MESSAGES.EMPTY_PHOTO
-          },
+          errorMessage: 'Photo is required'
+        }
+      },
+      owner: {
+        notEmpty: {
+          errorMessage: 'Owner is required'
+        }
       }
     },
     ['body']
   )
 )
 
-export const TradeProductValidator = validate(
-    checkSchema(
-      {
-        description: {
-          notEmpty: {
-            errorMessage: USERS_MESSAGES.EMPTY_DESCRIPTION
-          },
-        },
-        price: {
-          notEmpty: {
-              errorMessage: USERS_MESSAGES.EMPTY_PRICE
-            },
-        },
-        photo: {
-          notEmpty: {
-              errorMessage: USERS_MESSAGES.EMPTY_PHOTO
-            },
+const CategoriesValidator = validate(
+  checkSchema(
+    {
+      type: {
+        notEmpty: {
+          errorMessage: 'Type is required'
         }
       },
-      ['body']
-    )
+      description: {
+        notEmpty: {
+          errorMessage: 'Description is required'
+        }
+      }
+    },
+    ['body']
   )
+)
 
+export const productValidator = {
+  CategoriesValidator,
+  AccessoriesValidator
+}
