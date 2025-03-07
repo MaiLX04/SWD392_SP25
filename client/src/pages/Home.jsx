@@ -2,16 +2,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import BabyThree from "../../assets/BabyThree.jpg";
-import Cocacola from "../../assets/Cocacola.jpg";
-import ExcitingMacaron from "../../assets/ExcitingMacaron.jpg";
-import Haveaseat from "../../assets/Haveaseat.jpg";
-import "./Home.css";
-import { mockUsers } from "./mockData.js";
+import "../assets/css/Home.css";
+import BabyThree from "../assets/images/BabyThree.jpg";
+import Cocacola from "../assets/images/CocaCola.jpg"; // Fixed import path
+import ExcitingMacaron from "../assets/images/ExcitingMacaron.jpg"; // Fixed import path
+import Haveaseat from "../assets/images/Haveaseat.jpg"; // Fixed import path
+import { useAuth } from "../context/auth.jsx";
+import { mockUsers } from "../utils/mockData.js"; // Fixed import path
 
 const Home = () => {
   const navigate = useNavigate();
-  const currentUser = localStorage.getItem("username");
+  const { username, createTrade } = useAuth();
 
   const products = [
     {
@@ -41,26 +42,12 @@ const Home = () => {
   ];
 
   const handleOffer = (productId) => {
-    if (!currentUser) {
-      alert("Please log in to make an offer!");
+    if (!username) {
+      alert("please log in to make an offer!");
       return;
     }
     const product = products.find((p) => p.id === productId);
-    const tradeRequest = {
-      id: Date.now(),
-      sender: currentUser,
-      offer: "My Item",
-      request: product.name,
-      owner: product.owner,
-      status: "pending",
-    };
-
-    const existingTrades = JSON.parse(localStorage.getItem("trades") || "[]");
-    const updatedTrades = [...existingTrades, tradeRequest];
-
-    localStorage.setItem("trades", JSON.stringify(updatedTrades));
-    console.log("Trade saved:", tradeRequest);
-
+    createTrade(username, "My Item", product.name, product.owner);
     alert(`Trade request sent to ${product.owner}`);
   };
 

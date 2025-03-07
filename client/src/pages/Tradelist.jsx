@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./Tradelist.css";
+import "../assets/css/Tradelist.css";
+import { useAuth } from "../context/auth.jsx";
 
 const TradeBlock = ({ trade, onAccept, onDeny }) => {
   return (
-    <div className={"trade_request ${trade.status}"}>
+    <div className={`trade_request ${trade.status}`}>
       <div>
         <h3>Trade #{trade.id}</h3>
         <p>Sender: {trade.sender}</p>
@@ -31,27 +32,18 @@ const TradeBlock = ({ trade, onAccept, onDeny }) => {
 };
 
 const Tradelist = () => {
-  const currentUser = localStorage.getItem("username") || "guest";
+  const { username, updateTrades } = useAuth();
+  const currentUser = username || "guest";
   const [trades, setTrades] = useState([]);
 
-  // Add a function to fetch and update trades
-  const updateTrades = () => {
-    const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
-    console.log("All trades from localStorage:", allTrades);
-    console.log("Current user (owner):", currentUser);
-
-    const userTrades = allTrades.filter((trade) => trade.owner === currentUser);
-
-    console.log("Filtered trades:", userTrades);
-    setTrades(userTrades);
-  };
-
   useEffect(() => {
-    updateTrades();
-    // Optional: Add an interval to check for new trades periodically
-    const interval = setInterval(updateTrades, 5000); // Check every 5 seconds
+    setTrades(updateTrades(currentUser));
+    const interval = setInterval(
+      () => setTrades(updateTrades(currentUser)),
+      5000
+    );
     return () => clearInterval(interval);
-  }, [currentUser]);
+  }, [currentUser, updateTrades]);
 
   const handleAccept = (tradeId) => {
     const allTrades = JSON.parse(localStorage.getItem("trades") || "[]");
@@ -59,8 +51,7 @@ const Tradelist = () => {
       trade.id === tradeId ? { ...trade, status: "accepted" } : trade
     );
     localStorage.setItem("trades", JSON.stringify(updatedTrades));
-    updateTrades();
-
+    setTrades(updateTrades(currentUser));
     const acceptedTrade = updatedTrades.find((t) => t.id === tradeId);
     alert(`Chat opened between ${acceptedTrade.sender} and ${currentUser}`);
   };
@@ -71,7 +62,7 @@ const Tradelist = () => {
       trade.id === tradeId ? { ...trade, status: "denied" } : trade
     );
     localStorage.setItem("trades", JSON.stringify(updatedTrades));
-    updateTrades(); // Update the view immediately
+    setTrades(updateTrades(currentUser));
   };
 
   return (

@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import "./Navbar.css";
+import { Link, NavLink } from "react-router-dom";
+import "../assets/css/Navbar.css";
+import { useAuth } from "../context/auth.jsx";
+import { LoginButton } from "./LoginButton";
+import { LogoutButton } from "./LogoutButton";
+import { RegisterButton } from "./RegisterButton";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const updateLoginStatus = () => {
-      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-      setIsLoggedIn(loggedIn);
-      if (loggedIn) {
-        setUsername(localStorage.getItem("username") || "User");
-      } else {
-        setUsername("");
-      }
-    };
-
-    updateLoginStatus();
-    window.addEventListener("storage", updateLoginStatus);
-    return () => window.removeEventListener("storage", updateLoginStatus);
-  }, []);
+  const { isLoggedIn, username, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("username");
-    setIsLoggedIn(false);
-    setUsername("");
+    logout();
     setShowLogoutPopup(false);
-    window.dispatchEvent(new Event("storage"));
-    navigate("/login");
   };
 
   return (
@@ -79,31 +60,20 @@ export const Navbar = () => {
             <span className="account">
               <FaUser /> @{username}
             </span>
-
-            <button
-              className="logout_button"
-              onClick={() => setShowLogoutPopup(true)}
-            >
-              Log out
-            </button>
+            <LogoutButton onClick={() => setShowLogoutPopup(true)} />
           </li>
         ) : (
           <>
             <li>
-              <NavLink className="signin" to="/login">
-                Sign in
-              </NavLink>
+              <LoginButton />
             </li>
             <li>
-              <NavLink className="register" to="/register">
-                Register
-              </NavLink>
+              <RegisterButton />
             </li>
           </>
         )}
       </ul>
 
-      {/* Logout Popup */}
       {showLogoutPopup && (
         <div className="logout_popup">
           <div className="logout_window">

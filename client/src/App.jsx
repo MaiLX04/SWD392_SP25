@@ -1,15 +1,13 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import "./App.css";
+import "./assets/css/App.css"; // Fixed import path
 import { Navbar } from "./components/Navbar";
-import About from "./components/pages/About";
-import { Accessory } from "./components/pages/Accessory";
-import Home from "./components/pages/Home";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
-import Tradelist from "./components/pages/Tradelist";
-import { OfferPage } from "./components/pages/OfferPage";
-
-import ProductPage from "./components/pages/ProductPage"; // Thêm ProductPage
+import About from "./pages/About";
+import { Accessory } from "./pages/Accessory";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ProductPage from "./pages/ProductPage";
+import Register from "./pages/Register";
+import Tradelist from "./pages/Tradelist";
 
 function App() {
   const location = useLocation();
@@ -19,7 +17,6 @@ function App() {
       {location.pathname !== "/login" && location.pathname !== "/register" && (
         <Navbar />
       )}
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -27,8 +24,8 @@ function App() {
         <Route path="/accessory" element={<Accessory />} />
         <Route path="/login" element={<Login hideNavBar={true} />} />
         <Route path="/register" element={<Register hideNavBar={true} />} />
-        <Route path="/offer/:id" element={<OfferPage />} /> {/* Thêm route OfferPage */}
-        <Route path="/product/:id" element={<ProductPage />} /> {/* Thêm route ProductPage */}
+        <Route path="/product/:id" element={<ProductPage />} />{" "}
+        {/* Thêm route ProductPage */}
       </Routes>
     </div>
   );

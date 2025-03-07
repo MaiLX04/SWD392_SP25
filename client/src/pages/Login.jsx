@@ -1,29 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { mockUsers } from "./mockData.js";
+import "../assets/css/Login.css";
+import { useAuth } from "../context/auth.jsx";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-
-    const user = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      console.log("Login successful:", { email });
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", user.username);
-      navigate("/");
-    } else {
+    if (!login(email, password)) {
       setError("Invalid email or password");
+    } else {
+      navigate("/");
     }
   };
 
@@ -31,6 +24,7 @@ export default function Login() {
     <div className="login_window">
       <div className="login_form">
         <h2>Sign in your account</h2>
+        {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <input
             type="email"
