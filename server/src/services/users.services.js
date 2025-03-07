@@ -8,6 +8,7 @@ import { USERS_MESSAGES } from '../constants/messages.js'
 import { ObjectId } from 'mongodb'
 import { TokenType } from '../constants/enums.js'
 import dotenv from 'dotenv'
+import { userModel } from '../models/userModel.js'
 
 dotenv.config()
 
