@@ -3,23 +3,36 @@ import express from 'express'
 import usersRouter from './routes/users.routers.js'
 import databaseServices from './services/database.services.js'
 import { defaultErrorHandler } from './middlewares/error.middlewares.js'
+<<<<<<< HEAD
 import accessoriesRouter from './routes/accessories.routes.js'
 import blindboxRouter from './routes/blindboxes.routers.js'
 import offersRouter from './routes/offers.routers.js'
+=======
+import tradeRequestsRouter from './routes/tradeRequests.routers.js'
+import { initFolder } from './utils/file.js'
+import blindboxRouter from './routes/blindboxes.routers.js'
+import offersRouter from './routes/offers.routers.js'
+import database from './configs/database.js'
+
+>>>>>>> backend
 //dựng server
 const app = express()
 const port = 3000
 //call server mongo chạy
-databaseServices.connect()
-
+database.connect()
+initFolder()
 app.use(express.json()) //cho server xài middleware biến đổi json
-//cho server kết nối userRouter
+//cho server kết nối các Router
 app.use('/user', usersRouter)
+<<<<<<< HEAD
 
 app.use('/accessories', accessoriesRouter)
 
 app.use('/blindbox', blindboxRouter)
 
+=======
+app.use('/trade_requests', tradeRequestsRouter)
+>>>>>>> backend
 app.use('/offers', offersRouter)
 
 //trở thành error handler cho cả app nên nó nằm cuối app để là điểm tập kết cuối cùng

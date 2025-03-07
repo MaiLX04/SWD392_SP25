@@ -45,6 +45,7 @@ export const USERS_MESSAGES = {
   VERIFY_FORGOT_PASSWORD_TOKEN_SUCCESS: 'Verify forgot password token success',
   RESET_PASSWORD_SUCCESS: 'Reset password successfully',
   GET_PROFILE_SUCCESS: 'Get profile successfully',
+  USER_ROLE_IS_NOT_SUITABLE: 'User role is not suitable for this action',
 
   BIO_MUST_BE_A_STRING: 'Bio must be a string',
   BIO_LENGTH_MUST_BE_LESS_THAN_200: 'Bio length must be less than 200',
@@ -67,6 +68,12 @@ export const USERS_MESSAGES = {
   EMPTY_DESCRIPTION : 'Please fill in description',
   EMPTY_PRICE: 'Please fill in price',
   EMPTY_PHOTO: 'Please upload product photos'
+}
+
+export const TRADE_REQUESTS_MESSAGES = {
+  GET_TRADE_REQUESTS_SUCCESS: 'Get trade request success',
+  ITEM_MUST_HAVE_NAME: 'Item must have name',
+  CREATE_REQUEST_SUCCESSFULLY: 'Create request successfully'
 }
 
 //Blindbox message
@@ -93,10 +100,9 @@ export const BLINDBOX_MESSAGES = {
   DELETE_BLINDBOX_SUCCESS: 'Blind box deleted successfully',
 
   // Other messages
-  OWNER_NOT_FOUND: 'Owner of the blind box not found',
+  OWNER_NOT_FOUND: 'Owner of the blind box not found'
   // Add more messages as needed for other blind box operations
-};
-
+}
 
 export const OFFER_MESSAGES = {
   VALIDATION_ERROR: 'Validation error',
@@ -116,5 +122,5 @@ export const OFFER_MESSAGES = {
   CREATE_OFFER_SUCCESS: 'Offer created successfully',
   OFFER_NOT_FOUND: 'Offer not found',
   UPDATE_OFFER_SUCCESS: 'Offer updated successfully',
-  DELETE_OFFER_SUCCESS: 'Offer deleted successfully',
-};
+  DELETE_OFFER_SUCCESS: 'Offer deleted successfully'
+}

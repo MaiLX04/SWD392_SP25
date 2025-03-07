@@ -36,6 +36,6 @@ usersRouter.post('/login', loginValidator, wrapAsync(userController.login))
     path: /:id
     method: GET
 */
-usersRouter.get('/:id', userController.getUserProfile)
+usersRouter.get('/:id', wrapAsync(userController.getUserProfile))
 
 export default usersRouter

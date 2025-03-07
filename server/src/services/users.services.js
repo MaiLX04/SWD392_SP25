@@ -6,9 +6,10 @@ import { signToken } from '../utils/jwt.js'
 import { ErrorWithStatus } from '../models/Errors.js'
 import { USERS_MESSAGES } from '../constants/messages.js'
 import { ObjectId } from 'mongodb'
-import { TokenType } from '../constants/enums.js'
+import { TokenType, USER_ROLE } from '../constants/enums.js'
 import dotenv from 'dotenv'
-import { userModel } from '../models/userModel.js'
+import HTTP_STATUS from '../constants/httpStatus.js'
+import userRepo from '../repositories/users.repo.js'
 
 dotenv.config()
 
@@ -30,9 +31,9 @@ const signRefreshToken = async (user_id) => {
   })
 }
 
-const signAccessAndRefreshToken = async (user_id) => {
-  return Promise.all([signAccessToken(user_id), signRefreshToken(user_id)])
-}
+// const signAccessAndRefreshToken = async (user_id) => {
+//   return Promise.all([signAccessToken(user_id), signRefreshToken(user_id)])
+// }
 
 //viết hàm dùng jwt để kí email_verify_token
 const signEmailVerifyToken = async (user_id) => {
@@ -53,40 +54,67 @@ const signForgotPasswordToken = async (user_id) => {
 
 const checkEmailExist = async (email) => {
   //vào database tìm xem có hông
-  const user = await databaseServices.users.findOne({ email })
+  // const user = await databaseServices.users.findOne({ email })
+  const user = await userRepo.findByEmail(email)
   return Boolean(user) //có true, k false
+}
+
+const findUserById = async (user_id) => {
+  // const user = await databaseServices.users.findOne({ _id: new ObjectId(user_id) })
+  const user = await userRepo.findById(userId)
+  if (!user) {
+    throw new ErrorWithStatus({
+      status: HTTP_STATUS.NOT_FOUND,
+      message: USERS_MESSAGES.USER_NOT_FOUND
+    })
+  }
+  //nếu có thì return
+  return user
 }
 
 const register = async (payload) => {
   // const { email, password } = payload
-  let userId = new ObjectId()
-  const result = await databaseServices.users.insertOne(
+  // let userId = new ObjectId()
+  // const result = await databaseServices.users.insertOne(
+  //   new User({
+  //     _id: userId,
+  //     ...payload,
+  //     date_of_birth: new Date(payload.date_of_birth),
+  //     //vì User.schema.ts có date_of_birth là Date
+  //     //nhưng mà người dùng gửi lên payload là string
+  //     password: hashPassword(payload.password)
+  //   })
+  // )
+  const result = await userRepo.createUser(
     new User({
-      _id: userId,
       ...payload,
-      date_of_birth: new Date(payload.date_of_birth),
-      //vì User.schema.ts có date_of_birth là Date
-      //nhưng mà người dùng gửi lên payload là string
-      password: hashPassword(payload.password)
+      password: hashPassword(payload.password),
+      date_of_birth: new Date(payload.date_of_birth)
     })
   )
 
   // const access_token = await this.signAccessToken(user_id)
   // const refresh_token = await this.signRefreshToken(user_id)
   //nên viết là thì sẽ giảm thời gian chờ 2 cái này tạo ra
+
   // const [access_token, refresh_token] = await Promise.all([
   //   this.signAccessToken(user_id),
   //   this.signRefreshToken(user_id)
   // ]) //đây cũng chính là lý do mình chọn xử lý bất đồng bộ, thay vì chọn xử lý đồng bộ
-  const [access_token, refresh_token] = await signAccessAndRefreshToken(userId)
+
+  // const [access_token, refresh_token] = await signAccessAndRefreshToken(userId)
   //Promise.all giúp nó chạy bất đồng bộ, chạy song song nhau, giảm thời gian
-  return { access_token, refresh_token }
+
+  // return { access_token, refresh_token }
   //ta sẽ return 2 cái này về cho client
   //thay vì return user_id về cho client
+  return result
 }
+
 const login = async (email, password) => {
   //dùng email và password để tìm user
-  const user = await databaseServices.users.findOne({
+  // const user = await databaseServices.users.findOne({
+  const user = await userRepo.findByEmailAndPassword({
     email,
     password: hashPassword(password)
   })
@@ -103,16 +131,18 @@ const login = async (email, password) => {
   //   signAccessToken(user_id), //
   //   signRefreshToken(user_id)
   // ])
-  const [access_token, refresh_token] = await signAccessAndRefreshToken(user_id)
+  // const [access_token, refresh_token] = await signAccessAndRefreshToken(user_id)
 
-  return { access_token, refresh_token }
+  // return { access_token, refresh_token }
+  return user_id
 }
 
-const getUserProfile = async(userId) => {
+const getUserProfile = async (userId) => {
   try {
-    const user = userModel.getUserProfile(userId)
+    // const user = userModel.getUserProfile(userId)
+    const user = userRepo.findById(userId)
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' })
     } else return user
   } catch (error) {
     throw error
@@ -127,5 +157,6 @@ export const usersServices = {
   checkEmailExist,
   register,
   login,
-  getUserProfile
+  getUserProfile,
+  findUserById
 }

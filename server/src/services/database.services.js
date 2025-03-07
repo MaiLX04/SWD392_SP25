@@ -30,18 +30,21 @@ class DatabaseServices {
     return this.db.collection(process.env.DB_USERS_COLLECTION)
   }
 
+  get tradeRequests() {
+    return this.db.collection(process.env.DB_REQUESTS_COLLECTION)
+  }
+
   // get blind_boxes() {
   //   return this.db.collection(process.env.DB_BLINDBOX_COLLECTION)
   // }
 
   get blind_boxes() {
-    return this.db.collection('blind_boxes'); // Or use process.env.DB_BLIND_BOXES_COLLECTION if you have it in your .env
+    return this.db.collection('blind_boxes') // Or use process.env.DB_BLIND_BOXES_COLLECTION if you have it in your .env
   }
 
   get offers() {
-    return this.db.collection('offers');
+    return this.db.collection('offers')
   }
-  
 
   //   get refresh_tokens() {
   //     return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION)
