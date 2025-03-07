@@ -47,9 +47,9 @@ const login = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     const user = await usersServices.getUserProfile(req.params.id)
-    console.log(user)
+    // console.log(user)
     return res.status(200).json({
       message: 'success',
       user: {

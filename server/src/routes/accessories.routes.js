@@ -37,4 +37,14 @@ accessoriesRouter.post('/postAccessories', productValidator.AccessoriesValidator
 accessoriesRouter.post('/newCategory', productValidator.CategoriesValidator,
     wrapAsync(accessoriesController.newCategory))
 
+accessoriesRouter.get('/allAccessories', wrapAsync(accessoriesController.getAllAccessories))   
+
+accessoriesRouter.get('/allCategories', wrapAsync(accessoriesController.getAllCategories))   
+
+accessoriesRouter.get('/:id', accessoriesController.getAccessory)
+
+accessoriesRouter.get('/categories/:id', accessoriesController.getCategory)
+
+accessoriesRouter.delete('/:id', accessoriesController.deleteAccessory)
+
 export default accessoriesRouter
