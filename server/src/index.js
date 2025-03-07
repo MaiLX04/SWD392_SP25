@@ -6,12 +6,13 @@ import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import blindboxRouter from './routes/blindboxes.routers.js'
 import offersRouter from './routes/offers.routers.js'
+import database from './configs/database.js'
 
 //dựng server
 const app = express()
 const port = 3000
 //call server mongo chạy
-databaseServices.connect()
+database.connect()
 initFolder()
 app.use(express.json()) //cho server xài middleware biến đổi json
 //cho server kết nối các Router

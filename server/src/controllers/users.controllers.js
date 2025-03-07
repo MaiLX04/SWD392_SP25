@@ -1,6 +1,4 @@
 //controllers là tầng xử lí logic và call database thông qua services
-import User from '../models/schemas/User.schema.js'
-import databaseServices from '../services/database.services.js'
 import { usersServices } from '../services/users.services.js'
 import { ErrorWithStatus } from '../models/Errors.js'
 import HTTP_STATUS from '../constants/httpStatus.js'

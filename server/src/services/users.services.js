@@ -2,7 +2,6 @@ import User from '../models/schemas/User.schema.js'
 import databaseServices from './database.services.js'
 import { hashPassword } from '../utils/crypto.js'
 import { userModel } from '../models/userModel.js'
-
 import { signToken } from '../utils/jwt.js'
 import { ErrorWithStatus } from '../models/Errors.js'
 import { USERS_MESSAGES } from '../constants/messages.js'
@@ -10,7 +9,7 @@ import { ObjectId } from 'mongodb'
 import { TokenType, USER_ROLE } from '../constants/enums.js'
 import dotenv from 'dotenv'
 import HTTP_STATUS from '../constants/httpStatus.js'
-import { userModel } from '../models/userModel.js'
+import userRepo from '../repositories/users.repo.js'
 
 dotenv.config()
 
@@ -55,12 +54,14 @@ const signForgotPasswordToken = async (user_id) => {
 
 const checkEmailExist = async (email) => {
   //vào database tìm xem có hông
-  const user = await databaseServices.users.findOne({ email })
+  // const user = await databaseServices.users.findOne({ email })
+  const user = await userRepo.findByEmail(email)
   return Boolean(user) //có true, k false
 }
 
 const findUserById = async (user_id) => {
-  const user = await databaseServices.users.findOne({ _id: new ObjectId(user_id) })
+  // const user = await databaseServices.users.findOne({ _id: new ObjectId(user_id) })
+  const user = await userRepo.findById(userId)
   if (!user) {
     throw new ErrorWithStatus({
       status: HTTP_STATUS.NOT_FOUND,
@@ -73,15 +74,22 @@ const findUserById = async (user_id) => {
 
 const register = async (payload) => {
   // const { email, password } = payload
-  let userId = new ObjectId()
-  const result = await databaseServices.users.insertOne(
+  // let userId = new ObjectId()
+  // const result = await databaseServices.users.insertOne(
+  //   new User({
+  //     _id: userId,
+  //     ...payload,
+  //     date_of_birth: new Date(payload.date_of_birth),
+  //     //vì User.schema.ts có date_of_birth là Date
+  //     //nhưng mà người dùng gửi lên payload là string
+  //     password: hashPassword(payload.password)
+  //   })
+  // )
+  const result = await userRepo.createUser(
     new User({
-      _id: userId,
       ...payload,
-      date_of_birth: new Date(payload.date_of_birth),
-      //vì User.schema.ts có date_of_birth là Date
-      //nhưng mà người dùng gửi lên payload là string
-      password: hashPassword(payload.password)
+      password: hashPassword(payload.password),
+      date_of_birth: new Date(payload.date_of_birth)
     })
   )
 
@@ -100,11 +108,13 @@ const register = async (payload) => {
   // return { access_token, refresh_token }
   //ta sẽ return 2 cái này về cho client
   //thay vì return user_id về cho client
-  return userId
+  return result
 }
+
 const login = async (email, password) => {
   //dùng email và password để tìm user
-  const user = await databaseServices.users.findOne({
+  // const user = await databaseServices.users.findOne({
+  const user = await userRepo.findByEmailAndPassword({
     email,
     password: hashPassword(password)
   })
@@ -129,7 +139,8 @@ const login = async (email, password) => {
 
 const getUserProfile = async (userId) => {
   try {
-    const user = userModel.getUserProfile(userId)
+    // const user = userModel.getUserProfile(userId)
+    const user = userRepo.findById(userId)
     if (!user) {
       return res.status(404).json({ message: 'User not found' })
     } else return user
