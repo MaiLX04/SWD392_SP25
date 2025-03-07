@@ -18,7 +18,6 @@ app.use(express.json()) //cho server xài middleware biến đổi json
 //cho server kết nối các Router
 app.use('/user', usersRouter)
 app.use('/trade_requests', tradeRequestsRouter)
-app.use('/blindbox', blindboxRouter)
 app.use('/offers', offersRouter)
 
 //trở thành error handler cho cả app nên nó nằm cuối app để là điểm tập kết cuối cùng
