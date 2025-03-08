@@ -25,6 +25,7 @@ const getAccessory = async (req, res) => {
 const deleteAccessory = async (req, res) => {
     const del = await productServices.deleteAccessory(req.params.id)
     res.status(HTTP_STATUS.OK).json(del)
+    
 }
 
 const getAllCategories = async (req, res) => {
