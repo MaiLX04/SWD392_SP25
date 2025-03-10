@@ -64,10 +64,17 @@ export const USERS_MESSAGES = {
     'Username must be a string and length must be 4 - 15, and contain only letters, numbers, and underscores, not only numbers',
   CHANGE_PASSWORD_SUCCESS: 'Change password successfully',
   REFRESH_TOKEN_SUCCESS: 'Refresh token change Successfully',
-  //Product and others
-  EMPTY_DESCRIPTION : 'Please fill in description',
-  EMPTY_PRICE: 'Please fill in price',
-  EMPTY_PHOTO: 'Please upload product photos'
+}
+
+export const PRODUCT_MESSAGE = {
+  // Product and others
+  EMPTY_TYPE: 'Type is required',
+  EMPTY_NAME: 'Name is required',
+  EMPTY_DESCRIPTION: 'Description is required',
+  EMPTY_PRICE: 'Price is required',
+  INVALID_PRICE: 'Price must be a number',
+  EMPTY_PHOTO: 'Photo is required',
+  EMPTY_OWNER: 'Owner is required'
 }
 
 export const TRADE_REQUESTS_MESSAGES = {
