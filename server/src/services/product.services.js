@@ -1,6 +1,5 @@
-import databaseServices from './database.services.js'
-// import { productModel } from '../models/productModel.js'
-import { productModel } from '../models/productModel.js'
+import accessoriesRepo from '../repositories/accessories.repo.js'
+import categoriesRepo from '../repositories/categories.repo.js'
 
 const postAccessories = async (reqBody) => {
   try {
@@ -9,13 +8,13 @@ const postAccessories = async (reqBody) => {
       ...reqBody
     }
     // call model layer to save into DB
-    return await productModel.postAccessories(newProduct)
+    return await accessoriesRepo.postAccessories(newProduct)
   } catch (error) { throw error }
 }
 
 const getAccessory = async(ID) => {
   try {
-    return await productModel.getAccessory(ID)
+    return await accessoriesRepo.getAccessorybyID(ID)
   } catch (error) {
     throw error
   }
@@ -23,7 +22,7 @@ const getAccessory = async(ID) => {
 
 const deleteAccessory = async(ID) => {
   try {
-    return await productModel.deleteAccessory(ID)
+    return await accessoriesRepo.deleteAccessoryByID(ID)
   } catch (error) {
     throw error
   }
@@ -31,7 +30,7 @@ const deleteAccessory = async(ID) => {
 
 const getAllAccessories = async() => {
   try {
-    const list = await productModel.getAllAccessories()
+    const list = await accessoriesRepo.getAllAccessories()
     // console.log('service: ', list)
     return list
   } catch (error) {
@@ -43,7 +42,7 @@ const createCategories = async (reqBody) => {
   try {
     // process logic base on each project
     const { type }  = reqBody
-    const exist = await productModel.checkCatExistByType(type)  
+    const exist = await categoriesRepo.checkCatExistByType(type)  
     if (exist) {
       throw new Error('Category already exists');
   } else { //no category exist
@@ -51,14 +50,14 @@ const createCategories = async (reqBody) => {
       ...reqBody
     }
     // call model layer to save into DB
-    return await productModel.createCategories(newCat)
+    return await categoriesRepo.createCategories(newCat)
   }
   } catch (error) { throw error }
 }
 
 const getCategory = async(ID) => {
   try {
-    return await productModel.getCategory(ID)
+    return await categoriesRepo.getCategory(ID)
   } catch (error) {
     throw error
   }
@@ -66,7 +65,7 @@ const getCategory = async(ID) => {
 
 const getAllCategories = async(ID) => {
   try {
-    return await productModel.getAllCategories(ID)
+    return await categoriesRepo.getAllCategories(ID)
   } catch (error) {
     throw error
   }
