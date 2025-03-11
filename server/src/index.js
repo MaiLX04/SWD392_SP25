@@ -8,6 +8,16 @@ import offersRouter from './routes/offers.routers.js'
 import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import database from './configs/database.js'
+import YAML from 'yaml'
+import fs from 'fs'
+import swaggerUi from 'swagger-ui-express'
+import path from 'path'
+
+
+const file  = fs.readFileSync(path.resolve('swd-swagger.yaml'), 'utf8')
+const swaggerDocument = YAML.parse(file)
+
+
 
 const app = express()
 const port = 3000
@@ -25,7 +35,7 @@ app.use(cors({
 
 // Enable JSON middleware
 app.use(express.json())
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Setup routes
 app.use('/user', usersRouter)
 app.use('/accessories', accessoriesRouter)
