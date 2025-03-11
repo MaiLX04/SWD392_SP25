@@ -1,45 +1,41 @@
-
 import express from 'express'
+import cors from 'cors' // Import cors
 import usersRouter from './routes/users.routers.js'
 import databaseServices from './services/database.services.js'
 import { defaultErrorHandler } from './middlewares/error.middlewares.js'
-<<<<<<< HEAD
 import accessoriesRouter from './routes/accessories.routes.js'
-import blindboxRouter from './routes/blindboxes.routers.js'
 import offersRouter from './routes/offers.routers.js'
-=======
 import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
-import blindboxRouter from './routes/blindboxes.routers.js'
-import offersRouter from './routes/offers.routers.js'
 import database from './configs/database.js'
 
->>>>>>> backend
-//dựng server
 const app = express()
 const port = 3000
-//call server mongo chạy
+
+// Connect to database
 database.connect()
 initFolder()
-app.use(express.json()) //cho server xài middleware biến đổi json
-//cho server kết nối các Router
+
+// Enable CORS
+app.use(cors({
+  origin: '*', // Allow all origins (for testing). Change this to your frontend URL in production.
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}))
+
+// Enable JSON middleware
+app.use(express.json())
+
+// Setup routes
 app.use('/user', usersRouter)
-<<<<<<< HEAD
-
 app.use('/accessories', accessoriesRouter)
-
-app.use('/blindbox', blindboxRouter)
-
-=======
 app.use('/trade_requests', tradeRequestsRouter)
->>>>>>> backend
 app.use('/offers', offersRouter)
 
-//trở thành error handler cho cả app nên nó nằm cuối app để là điểm tập kết cuối cùng
-//xử lí lỗi tổng
+// Error handling middleware (should be at the end)
 app.use(defaultErrorHandler)
 
-//Cho server mở port ở 3000
+// Start server
 app.listen(port, () => {
-  console.log(`Project is running on port : ${port}`)
+  console.log(`Project is running on port: ${port}`)
 })
