@@ -11,10 +11,24 @@ import database from './configs/database.js'
 import YAML from 'yaml'
 import fs from 'fs'
 import swaggerUi from 'swagger-ui-express'
+import swaggerJsdoc from 'swagger-jsdoc'
 import path from 'path'
 
 
 const file  = fs.readFileSync(path.resolve('swd-swagger.yaml'), 'utf8')
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Accessories Buying And Blindbox Trading',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/routes/*.routers.js', './src/models/schemas/*.schema.js'], // files containing annotations as above
+};
+const openapiSpecification = swaggerJsdoc(options);
+
 const swaggerDocument = YAML.parse(file)
 
 
@@ -35,7 +49,7 @@ app.use(cors({
 
 // Enable JSON middleware
 app.use(express.json())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 // Setup routes
 app.use('/user', usersRouter)
 app.use('/accessories', accessoriesRouter)

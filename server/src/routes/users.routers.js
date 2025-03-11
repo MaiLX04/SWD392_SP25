@@ -18,7 +18,6 @@ const usersRouter = Router()
         date_of_birth: string nhưng có dạng ISO8601
     }
  */
-usersRouter.post('/register', registerValidator, wrapAsync(userController.register))
 
 /*
     description: Login
@@ -28,7 +27,41 @@ usersRouter.post('/register', registerValidator, wrapAsync(userController.regist
         email: string,
         password: string
     }
-*/
+*/    
+usersRouter.post('/register', registerValidator, wrapAsync(userController.register))
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     tags:
+ *       - users
+ *     summary: Login
+ *     description: Login into system
+ *     operationId: login
+ *     requestBody:
+ *       description: Login's information
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginBody'
+ *     responses:
+ *       200:
+ *         description: Login successfully!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Login Success
+ *                 result:
+ *                   $ref: '#/components/schemas/SuccessAuthentication'
+ *       422:
+ *         description: Email or password is incorrect
+ */
 usersRouter.post('/login', loginValidator, wrapAsync(userController.login))
 
 /*
