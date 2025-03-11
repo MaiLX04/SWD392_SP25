@@ -23,3 +23,7 @@ CMD ["npm", "run", "dev"]
 #  docker build --tag node-docker .
 # run image
 #  docker run -p 3000:3000 -d node-docker
+# make a tagname for image
+#  docker tag local-image:tagname new-repo:tagname
+# push a image with tagname into docker hub
+#  docker push new-repo:tagname
