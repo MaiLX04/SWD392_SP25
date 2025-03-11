@@ -11,11 +11,12 @@ import { RegisterButton } from "./RegisterButton";
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
-  const { isLoggedIn, username, logout } = useAuth();
+  const { isLoggedIn, username, role, logout } = useAuth();
+  console.log("Navbar auth state:", { isLoggedIn, username, role });
 
   const handleLogout = () => {
-    logout();
     setShowLogoutPopup(false);
+    logout();
   };
 
   return (
@@ -52,9 +53,30 @@ export const Navbar = () => {
             to="/tradelist"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Trade List
+            Trade
           </NavLink>
         </li>
+
+        {isLoggedIn && (role || "user").toLowerCase().trim() === "admin" && (
+          <>
+            <li>
+              <NavLink
+                to="/user_management"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                User
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/accessory_management"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Accessory
+              </NavLink>
+            </li>
+          </>
+        )}
 
         {isLoggedIn ? (
           <li className="user">

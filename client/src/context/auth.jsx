@@ -6,48 +6,56 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("user");
   const navigate = useNavigate();
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
     if (loggedIn) {
-      setUsername(localStorage.getItem("username") || "User");
+      const storedUsername = localStorage.getItem("username") || "";
+      const storedRole = localStorage.getItem("role");
+      const roleToSet = storedRole ? storedRole.toLowerCase().trim() : "user";
+      setUsername(storedUsername);
+      setRole(roleToSet);
+      console.log("Initial state from localStorage:", {
+        isLoggedIn: loggedIn,
+        username: storedUsername,
+        role: roleToSet,
+      });
     }
   }, []);
 
   const login = async (email, password) => {
     try {
-      // Your MockAPI endpoint
       const apiUrl =
         "https://67c7faf7c19eb8753e7bae06.mockapi.io/api/huy/users";
-
-      // Fetch all users with GET request
       const response = await fetch(apiUrl, {
-        method: "GET", // Use GET to retrieve users, not create them
-        headers: {
-          "Content-Type": "application/json",
-        },
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch users");
-      }
-
-      // Parse the response (array of users)
+      if (!response.ok) throw new Error("Failed to fetch users");
       const users = await response.json();
-
-      // Find a user with matching email and password
       const user = users.find(
         (u) => u.email === email && u.password === password
       );
 
       if (user) {
-        // Successful login
+        const normalizedRole = user.role
+          ? user.role.toLowerCase().trim()
+          : "user";
+        console.log("Logged in user:", user);
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", user.username); // Assuming your API returns a username
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("role", normalizedRole);
         setIsLoggedIn(true);
         setUsername(user.username);
+        setRole(normalizedRole);
+        console.log("State after login:", {
+          isLoggedIn: true,
+          username: user.username,
+          role: normalizedRole,
+        });
         navigate("/");
         return true;
       } else {
@@ -63,8 +71,10 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
     setUsername("");
+    setRole("user");
     navigate("/login");
   };
 
@@ -72,19 +82,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const apiUrl =
         "https://67c7faf7c19eb8753e7bae06.mockapi.io/api/huy/users";
-
-      // Check if email already exists
       const checkResponse = await fetch(apiUrl, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
-
-      if (!checkResponse.ok) {
-        throw new Error("Failed to fetch users");
-      }
-
+      if (!checkResponse.ok) throw new Error("Failed to fetch users");
       const users = await checkResponse.json();
       const emailExists = users.some((user) => user.email === email);
 
@@ -92,13 +94,10 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Email already registered");
       }
 
-      // Create new user with POST request
       const newUser = { username, email, password };
       const response = await fetch(apiUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
       });
 
@@ -107,16 +106,14 @@ export const AuthProvider = ({ children }) => {
       }
 
       const createdUser = await response.json();
-
-      // Log the user in after successful registration
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", createdUser.username);
       setIsLoggedIn(true);
       setUsername(createdUser.username);
-      return true; // Success
+      return true;
     } catch (error) {
       console.error("Error during registration:", error);
-      throw error; // Throw error to be caught in Register.jsx
+      throw error;
     }
   };
 
@@ -145,6 +142,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         isLoggedIn,
         username,
+        role,
         login,
         logout,
         register,

@@ -3,20 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import "../assets/css/Login.css";
 import { useAuth } from "../context/auth.jsx";
 
-export default function Login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!login(email, password)) {
-      setError("Invalid email or password");
-    } else {
+
+    const loginSuccess = await login(email, password);
+    if (loginSuccess) {
       navigate("/");
+    } else {
+      alert("Wrong email or password");
     }
   };
 
@@ -49,3 +51,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;
