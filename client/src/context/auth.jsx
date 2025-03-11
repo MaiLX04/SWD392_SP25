@@ -68,13 +68,56 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
-  const register = (username, email, password) => {
-    // Mock registration logic (placeholder)
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("username", username);
-    setIsLoggedIn(true);
-    setUsername(username);
-    navigate("/");
+  const register = async (username, email, password) => {
+    try {
+      const apiUrl =
+        "https://67c7faf7c19eb8753e7bae06.mockapi.io/api/huy/users";
+
+      // Check if email already exists
+      const checkResponse = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!checkResponse.ok) {
+        throw new Error("Failed to fetch users");
+      }
+
+      const users = await checkResponse.json();
+      const emailExists = users.some((user) => user.email === email);
+
+      if (emailExists) {
+        throw new Error("Email already registered");
+      }
+
+      // Create new user with POST request
+      const newUser = { username, email, password };
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to register user");
+      }
+
+      const createdUser = await response.json();
+
+      // Log the user in after successful registration
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("username", createdUser.username);
+      setIsLoggedIn(true);
+      setUsername(createdUser.username);
+      return true; // Success
+    } catch (error) {
+      console.error("Error during registration:", error);
+      throw error; // Throw error to be caught in Register.jsx
+    }
   };
 
   const updateTrades = (currentUser) => {
