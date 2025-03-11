@@ -22,7 +22,23 @@ const createRequest = async (payload) => {
   return result
 }
 
+// sửa thông tin reqquest
+const updateRequest = (reqId, data) => {
+  const result = requestRepo.update(reqId, data)
+  return result
+  //nên trả lỗi khi ko update đc
+}
+
+// sửa status reqquest
+const updateStatus = (reqId, data) => {
+  const result = requestRepo.update(reqId, data)
+  return result
+  //nên trả lỗi khi ko update đc
+}
+
 export const tradeRequestServices = {
   getAllRequests,
-  createRequest
+  createRequest,
+  updateRequest,
+  updateStatus
 }
