@@ -44,11 +44,6 @@ import { USER_ROLE, UserVerifyStatus } from '../../constants/enums.js'
  *           format: date-time
  *           example: "2004-03-17T17:00:00.000Z"
  * 
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  */
 
 

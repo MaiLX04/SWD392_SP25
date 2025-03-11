@@ -8,14 +8,14 @@ import offersRouter from './routes/offers.routers.js'
 import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import database from './configs/database.js'
-import YAML from 'yaml'
-import fs from 'fs'
+// import YAML from 'yaml'
+// import fs from 'fs'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
-import path from 'path'
+// import path from 'path'
 
 
-const file  = fs.readFileSync(path.resolve('swd-swagger.yaml'), 'utf8')
+// const file  = fs.readFileSync(path.resolve('swd-swagger.yaml'), 'utf8')
 
 const options = {
   definition: {
@@ -24,12 +24,23 @@ const options = {
       title: 'Accessories Buying And Blindbox Trading',
       version: '1.0.0',
     },
+    // components: {
+    //   securitySchemes: {
+    //     BearerAuth: {
+    //       type: 'http',
+    //       scheme: 'bearer',
+    //       bearerFormat: 'JWT'
+    //     }
+    //   }
+    // }
   },
-  apis: ['./src/routes/*.routers.js', './src/models/schemas/*.schema.js'], // files containing annotations as above
+  // apis: ['./src/routes/*.routers.js', './src/models/schemas/*.schema.js'], // files containing annotations as above
+  // apis: ['./swd-swagger.yaml'], // files containing annotations as above
+  apis: ['./openapi/*.yaml'], // files containing annotations as above
 };
 const openapiSpecification = swaggerJsdoc(options);
 
-const swaggerDocument = YAML.parse(file)
+// const swaggerDocument = YAML.parse(file)
 
 
 
