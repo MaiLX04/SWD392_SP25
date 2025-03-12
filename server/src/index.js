@@ -15,7 +15,7 @@ database.connect()
 initFolder()
 app.use(express.json()) //cho server xài middleware biến đổi json
 //cho server kết nối các Router
-app.use('/', console.log('Hello World'))
+// app.use('/', console.log('Hello World'))
 
 app.use('/user', usersRouter)
 

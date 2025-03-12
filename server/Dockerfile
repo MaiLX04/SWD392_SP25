@@ -24,6 +24,6 @@ CMD ["npm", "run", "dev"]
 # run image
 #  docker run -p 3000:3000 -d node-docker
 # make a tagname for image
-#  docker tag local-image:tagname new-repo:tagname
+#  docker tag my-api your-dockerhub-username/my-api:v1
 # push a image with tagname into docker hub
-#  docker push new-repo:tagname
+#  docker push your-dockerhub-username/my-api:v1
