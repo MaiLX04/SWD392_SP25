@@ -5,18 +5,16 @@ import "../assets/css/Navbar.css";
 import { useAuth } from "../context/auth.jsx";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
-import Logoutwindow from "./Logoutwindow.jsx";
 import { RegisterButton } from "./RegisterButton";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
-  const { isLoggedIn, username, role, logout } = useAuth();
-  console.log("Navbar auth state:", { isLoggedIn, username, role });
+  const { isLoggedIn, username, logout } = useAuth();
 
   const handleLogout = () => {
-    setShowLogoutPopup(false);
     logout();
+    setShowLogoutPopup(false);
   };
 
   return (
@@ -32,6 +30,14 @@ export const Navbar = () => {
       </div>
 
       <ul className={menuOpen ? "open" : ""}>
+      <li>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Manage Users
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/about"
@@ -53,30 +59,9 @@ export const Navbar = () => {
             to="/tradelist"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Trade
+            Trade List
           </NavLink>
         </li>
-
-        {isLoggedIn && (role || "user").toLowerCase().trim() === "admin" && (
-          <>
-            <li>
-              <NavLink
-                to="/user_management"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                User
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/accessory_management"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Accessory
-              </NavLink>
-            </li>
-          </>
-        )}
 
         {isLoggedIn ? (
           <li className="user">
@@ -98,10 +83,16 @@ export const Navbar = () => {
       </ul>
 
       {showLogoutPopup && (
-        <Logoutwindow
-          onConfirm={handleLogout}
-          onCancel={() => setShowLogoutPopup(false)}
-        />
+        <div className="logout_popup">
+          <div className="logout_window">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to log out?</p>
+            <div className="popup_button">
+              <button onClick={handleLogout}>Yes, Log out</button>
+              <button onClick={() => setShowLogoutPopup(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
       )}
     </nav>
   );

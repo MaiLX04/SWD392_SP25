@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { FaUser } from "react-icons/fa";
+import { Link, NavLink } from "react-router-dom";
+import "../assets/css/Navbar.css";
+import { useAuth } from "../context/auth.jsx";
 
-const Admin = () => {
+const user_management = () => {
     const [users, setUsers] = useState(initialUsers);
     const [editingUser, setEditingUser] = useState(null);
-    const [newName, setNewName] = useState('');
-    const [newEmail, setNewEmail] = useState('');
+    const [newUsername, setNewUsername] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     const handleEdit = (user) => {
         setEditingUser(user);
-        setNewName(user.name);
-        setNewEmail(user.email);
+        setNewUsername(user.username);
+        setNewPassword(user.password);
     };
 
     const handleDelete = (userId) => {
@@ -18,11 +22,11 @@ const Admin = () => {
 
     const handleSave = () => {
         setUsers(users.map(user => 
-            user.id === editingUser.id ? { ...user, name: newName, email: newEmail } : user
+            user.id === editingUser.id ? { ...user, username: newUsername, password: newPassword } : user
         ));
         setEditingUser(null);
-        setNewName('');
-        setNewEmail('');
+        setNewUsername('');
+        setNewPassword('');
     };
 
     return (
@@ -31,21 +35,25 @@ const Admin = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>No</th>
+                        <th>Username</th>
+                        <th>Profile Picture</th>
+                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
+                    {users.map((user, index) => (
                         <tr key={user.id}>
-                            <td>{user.id}</td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
+                            <td>{index + 1}</td>
+                            <td>{user.username}</td>
+                            <td>
+                                <img src={user.profilePicture} alt="Profile" width="50" height="50" />
+                            </td>
+                            <td>{user.password}</td>
                             <td>
                                 <button onClick={() => handleEdit(user)}>Edit</button>
-                                <button onClick={() => handleDelete(user.id)}>Delete</button>
+                                <button onClick={() => handleDelete(user.id)}>Delete user</button>
                             </td>
                         </tr>
                     ))}
@@ -55,19 +63,19 @@ const Admin = () => {
                 <div>
                     <h2>Edit User</h2>
                     <label>
-                        Name:
+                        Username:
                         <input 
                             type="text" 
-                            value={newName} 
-                            onChange={(e) => setNewName(e.target.value)} 
+                            value={newUsername} 
+                            onChange={(e) => setNewUsername(e.target.value)} 
                         />
                     </label>
                     <label>
-                        Email:
+                        Password:
                         <input 
-                            type="email" 
-                            value={newEmail} 
-                            onChange={(e) => setNewEmail(e.target.value)} 
+                            type="password" 
+                            value={newPassword} 
+                            onChange={(e) => setNewPassword(e.target.value)} 
                         />
                     </label>
                     <button onClick={handleSave}>Save</button>
@@ -77,4 +85,4 @@ const Admin = () => {
     );
 };
 
-export default Admin;
+export default user_management;
