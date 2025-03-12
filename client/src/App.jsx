@@ -6,7 +6,7 @@ import { Accessory } from "./pages/Accessory";
 import AccessoryManagement from "./pages/accessory_management";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProductPage from "./pages/ProductPage";
+import ViewScreen from "./pages/ViewScreen";
 import Register from "./pages/Register";
 import Tradelist from "./pages/Tradelist";
 import UserManagement from "./pages/user_management";
@@ -26,7 +26,7 @@ function App() {
         <Route path="/accessory" element={<Accessory />} />
         <Route path="/login" element={<Login hideNavBar={true} />} />
         <Route path="/register" element={<Register hideNavBar={true} />} />
-        <Route path="/product/:id" element={<ProductPage />} />{" "}
+        <Route path="/product/:id" element={<ViewScreen />} />{" "}
         <Route path="/user_management" element={<UserManagement />} />
         <Route path="/accessory_management" element={<AccessoryManagement />} />
       </Routes>
