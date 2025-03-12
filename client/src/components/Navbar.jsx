@@ -64,7 +64,7 @@ export const Navbar = () => {
                 to="/user_management"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                User
+                User Manage
               </NavLink>
             </li>
             <li>
@@ -72,7 +72,7 @@ export const Navbar = () => {
                 to="/accessory_management"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Accessory
+                Accessory Manage
               </NavLink>
             </li>
           </>
