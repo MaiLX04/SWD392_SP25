@@ -89,4 +89,273 @@ paths:
                properties:
                  message: 
                   type: string
-                  example: input must be a 24 character hex string, 12 byte Uint8Array, or an integer       
+                  example: input must be a 24 character hex string, 12 byte Uint8Array, or an integer   
+  /offer:
+    post:
+      tags:
+        - offers
+      summary: Create an offer
+      description: Create a new offer for a trade request
+      operationId: createOffer
+      requestBody:
+        description: Offer details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreateRequestBody' # Reference the schema
+        required: true
+      responses:
+        '201':
+          description: Offer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferCreateSuccessResponse' # Reference the schema
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferCreateBadRequestResponse' # Reference the schema
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferCreateInternalServerErrorResponse' # Reference the schema
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Get all offers
+      description: Retrieve a list of all offers
+      operationId: getAllOffers
+      responses:
+        '200':
+          description: A list of offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer' # Reference the Offer schema
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error getting all offers
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Get offer by ID
+      description: Retrieve an offer by its ID
+      operationId: getOfferById
+      parameters:
+        - name: offerId
+          in: path
+          description: ID of the offer to retrieve
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      responses:
+        '200':
+          description: Offer details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer' # Reference the Offer schema
+        '404':
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Offer not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error getting offer by offer ID
+  /offers/listRequest/{requestId}:
+    get:
+      tags:
+        - offers
+      summary: Get all offers by request ID
+      description: Retrieve a list of all offers for a specific request
+      operationId: getAllOffersByRequestId
+      parameters:
+        - name: requestId
+          in: path
+          description: ID of the request to retrieve offers for
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      responses:
+        '200':
+          description: A list of offers for the specified request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer' # Reference the Offer schema
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error getting offers by request ID  
+  /offers/{id}:
+    put:
+      tags:
+        - offers
+      summary: Update an offer
+      description: Update an existing offer by its ID
+      operationId: updateOffer
+      parameters:
+        - name: id
+          in: path
+          description: ID of the offer to update
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      requestBody:
+        description: Updated offer details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferUpdateRequestBody' # Reference the OfferUpdateRequestBody schema
+        required: true
+      responses:
+        '200':
+          description: Offer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer' # Reference the Offer schema (updated)
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  errors:
+                    type: object
+                    description: Object containing validation errors for each field
+                    example:
+                      offerItem: "Offer item is required"
+        '404':
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Offer not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error updating offer
+  /offers/{offerId}/status/{offerStatus}:
+    patch:
+      tags:
+        - offers
+      summary: Update offer status
+      description: Update the status of an existing offer
+      operationId: updateOfferStatus
+      parameters:
+        - name: offerId
+          in: path
+          description: ID of the offer to update
+          required: true
+          schema:
+            type: string
+            format: MongoId
+        - name: offerStatus
+          in: path
+          description: New status of the offer
+          required: true
+          schema:
+            type: string
+            enum:
+              - "Pending"
+              - "Accepted"
+              - "Declined"
+              - "Completed"
+            example: "Accepted"
+      responses:
+        '200':
+          description: Offer status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer' # Reference the Offer schema (updated)
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  errors:
+                    type: object
+                    description: Object containing validation errors for each field
+                    example:
+                      offerStatus: "Offer status is required"
+        '404':
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Offer not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error updating offer status
+

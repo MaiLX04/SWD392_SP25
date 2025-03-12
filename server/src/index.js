@@ -24,6 +24,7 @@ const options = {
       title: 'Accessories Buying And Blindbox Trading',
       version: '1.0.0',
     },
+
     // components: {
     //   securitySchemes: {
     //     BearerAuth: {
