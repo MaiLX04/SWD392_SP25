@@ -66,7 +66,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use('/user', usersRouter)
 app.use('/accessories', accessoriesRouter)
 app.use('/trade_requests', tradeRequestsRouter)
-app.use('/offers', offersRouter)
+app.use('/offer', offersRouter)
 
 // Error handling middleware (should be at the end)
 app.use(defaultErrorHandler)

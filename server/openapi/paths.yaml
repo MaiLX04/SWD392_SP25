@@ -28,6 +28,84 @@ tags:
   - name: users
     description: Operations about user 
 paths:   
+  /user/register:
+    post:
+      tags:
+        - users
+      summary: Register a new user
+      description: Create a new user account
+      operationId: registerUser
+      requestBody:
+        description: User registration details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Bá Thắng 6
+                email:
+                  type: string
+                  format: email
+                  example: bathangzed6@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: Thangdeptrai2004@6
+                confirmed_password:
+                  type: string
+                  format: password
+                  example: Thangdeptrai2004@6
+                date_of_birth:
+                  type: string
+                  format: date-time
+                  example: 2004-03-17T17:00:00.000+00:00
+              required:
+                - name
+                - email
+                - password
+                - confirmed_password
+                - date_of_birth
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Register Successfully
+                  id:
+                    type: object
+                    properties:
+                      acknowledged:
+                        type: boolean
+                        example: true
+                      insertedId:
+                        type: string
+                        format: MongoId
+                        example: 67d0f2d6d579115d2f9c11f8
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Validation error
+                  errors:
+                    type: object
+                    description: Object containing validation errors for each field
+                    example:
+                      name: Name is required
+                    # or
+                    # email: Email is required
+
   /user/login:
     post:
       tags:
@@ -123,7 +201,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfferCreateInternalServerErrorResponse' # Reference the schema
-  /offers:
     get:
       tags:
         - offers
@@ -148,8 +225,8 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: Error getting all offers
-  /offers/{offerId}:
+                    example: Error getting all offers            
+  /offer/{offerId}:
     get:
       tags:
         - offers
@@ -190,8 +267,8 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: Error getting offer by offer ID
-  /offers/listRequest/{requestId}:
+                    example: Error getting offer by ID
+  /offer/request/{requestId}:
     get:
       tags:
         - offers
@@ -225,7 +302,7 @@ paths:
                   error:
                     type: string
                     example: Error getting offers by request ID  
-  /offers/{id}:
+  /offer/{id}:
     put:
       tags:
         - offers
@@ -289,7 +366,7 @@ paths:
                   error:
                     type: string
                     example: Error updating offer
-  /offers/{offerId}/status/{offerStatus}:
+  /offer/{offerId}/status/{offerStatus}:
     patch:
       tags:
         - offers
@@ -358,4 +435,317 @@ paths:
                   error:
                     type: string
                     example: Error updating offer status
+  /accessory:
+    post:
+      tags:
+        - accessories
+      summary: Post a new accessory
+      description: Create a new accessory
+      operationId: postAccessories
+      requestBody:
+        description: Accessory details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessoryCreateRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Accessory created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessoryCreateResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error creating accessory" 
+  /category:
+    post:
+      tags:
+        - categories
+      summary: Create a new accessory category
+      description: Create a new category for accessories
+      operationId: createAccessoryCategory
+      requestBody:
+        description: Category details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryCreateRequestBody'
+        required: true
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  acknowledged:
+                    type: boolean
+                    example: true
+                  insertedId:
+                    type: string
+                    format: MongoId
+                    example: "67d0f2d6d579115d2f9c11f8"
+        '400':
+          description: Bad Request - Category already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category already exists"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error creating category"
+  /accessories:
+    get:
+      tags:
+        - accessories
+      summary: Get all accessories
+      description: Retrieve a list of all accessories
+      operationId: getAllAccessories
+      responses:
+        '200':
+          description: A list of accessories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Accessory'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error getting all accessories"
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: Get all accessory categories
+      description: Retrieve a list of all accessory categories
+      operationId: getAllCategories
+      responses:
+        '200':
+          description: A list of accessory categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error getting all categories"     
+  /accessories/{id}:
+    get:
+      tags:
+        - accessories
+      summary: Get accessory by ID
+      description: Retrieve a single accessory by its ID
+      operationId: getAccessoryById
+      parameters:
+        - name: id
+          in: path
+          description: ID of the accessory to retrieve
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      responses:
+        '200':
+          description: The requested accessory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accessory'
+        '404':
+          description: Accessory not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Accessory not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error getting accessory"
+    put:
+      tags:
+        - accessories
+      summary: Update an accessory
+      description: Update an existing accessory by its ID
+      operationId: updateAccessory
+      parameters:
+        - name: id
+          in: path
+          description: ID of the accessory to update
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      requestBody:
+        description: Updated accessory details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessoryUpdateRequestBody'
+        required: true
+      responses:
+        '200':
+          description: Accessory updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accessory'
+        '404':
+          description: Accessory not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Accessory not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error updating accessory"
+
+  /categories/{id}:
+    get:
+      tags:
+        - categories
+      summary: Get category by ID
+      description: Retrieve a single category by its ID
+      operationId: getCategoryById
+      parameters:
+        - name: id
+          in: path
+          description: ID of the category to retrieve
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      responses:
+        '200':
+          description: The requested category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error getting category"
+    put:
+      tags:
+        - categories
+      summary: Update a category
+      description: Update an existing category by its ID
+      operationId: updateCategory
+      parameters:
+        - name: id
+          in: path
+          description: ID of the category to update
+          required: true
+          schema:
+            type: string
+            format: MongoId
+      requestBody:
+        description: Updated category details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryUpdateRequestBody'
+        required: true
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error updating category"                                                                                   
 
