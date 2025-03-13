@@ -11,6 +11,7 @@ export default class accessories {
         this.status = accessories.status ||  'on-stock'
         this.date_added = accessories.date_added || new Date()
         this.owner = accessories.owner
+        this.buyer = accessories.buyer // user ID
     }
 }
 

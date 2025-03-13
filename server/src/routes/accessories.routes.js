@@ -1,9 +1,7 @@
-import express from 'express'
 import { Router } from 'express'
 import { accessoriesController } from '../controllers/accessories.controller.js'
 import { wrapAsync } from '../utils/handler.js'
 import { productValidator } from '../middlewares/product.middlewares.js'
-import databaseServices from '../services/database.services.js'
 //tạo Router
 const accessoriesRouter = Router()
 
@@ -46,5 +44,9 @@ accessoriesRouter.get('/:id', accessoriesController.getAccessory)
 accessoriesRouter.get('/categories/:id', accessoriesController.getCategory)
 
 accessoriesRouter.delete('/:id', accessoriesController.deleteAccessory)
+
+accessoriesRouter.get('/:id/reviews', accessoriesController.getAllReview)
+
+accessoriesRouter.post('/:id/purchase', accessoriesController.buyAccessory)
 
 export default accessoriesRouter

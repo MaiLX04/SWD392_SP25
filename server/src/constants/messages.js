@@ -74,7 +74,22 @@ export const PRODUCT_MESSAGE = {
   EMPTY_PRICE: 'Price is required',
   INVALID_PRICE: 'Price must be a number',
   EMPTY_PHOTO: 'Photo is required',
-  EMPTY_OWNER: 'Owner is required'
+  EMPTY_OWNER: 'Owner is required',
+  NOT_FOUND: 'Accessory not found!'
+}
+
+export const ORDER_MESSAGE = {
+  NOT_FOUND: 'Not found!',
+  NO_PERMISSION: 'You do not have the permission to do this',
+  CREATED: 'order created successfully'
+}
+
+export const REVIEW_MESSAGE = {
+  NOT_FOUND: 'Review not found!',
+  UPDATE_SUCCESS: 'Update review success',
+  CREATE_SUCCESS: 'Create review success',
+  DELETE_SUCCESS: 'Review deleted',
+  NO_PERMISSION: 'You do not have the permission to do this'
 }
 
 export const TRADE_REQUESTS_MESSAGES = {

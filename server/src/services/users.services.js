@@ -57,6 +57,11 @@ const checkEmailExist = async (email) => {
   return Boolean(user) //có true, k false
 }
 
+const checkAdmin = async (id) => {
+  const user = await userRepo.findById(id)
+  return user.role === USER_ROLE.Admin //true = is an Admin
+}
+
 const findUserById = async (user_id) => {
   // const user = await databaseServices.users.findOne({ _id: new ObjectId(user_id) })
   const user = await userRepo.findById(user_id)
@@ -156,5 +161,6 @@ export const usersServices = {
   register,
   login,
   getUserProfile,
-  findUserById
+  findUserById,
+  checkAdmin
 }
