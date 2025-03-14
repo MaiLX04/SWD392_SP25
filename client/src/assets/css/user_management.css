@@ -1,0 +1,36 @@
+.userlist {
+    background: #eee;
+    display: grid;
+    grid-template-columns: repeat(5, 4fr);
+    grid-template-rows: repeat(3, auto); /* Added to create 5 rows */
+    text-align: center;
+    border: 1px solid #000;
+}
+
+
+.userlist > div {
+    background: #ccc;
+    width: 300px;
+    padding: 50px;
+    margin: 20px;
+}
+
+.editBtn {
+    background: black;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    width:80px;
+    grid-row: span 2;
+}
+
+.deleteBtn {
+    background: red;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    width:80px;
+    grid-row: span 2;
+}
