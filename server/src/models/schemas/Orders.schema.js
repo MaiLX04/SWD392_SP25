@@ -5,7 +5,7 @@ export default class orders {
         this._id = orders._id || new ObjectId()
         this.date = orders.date || new Date()
         this.status = orders.status || 'pendings'
-        this.buyer = orders.buyers
+        this.buyer = orders.buyer
         this.total_price = orders.total_price // = (detail order) quantity * price
         this.payment_method = orders.payment_method || 'pay by cash'
         this.payment_status = orders.payment_status || 'pending'

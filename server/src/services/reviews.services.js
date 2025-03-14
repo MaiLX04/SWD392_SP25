@@ -1,6 +1,7 @@
-import { ORDER_MESSAGE } from "../constants/messages";
-import reviewRepo from "../repositories/reviews.repo";
-import userRepo from "../repositories/users.repo";
+import { ORDER_MESSAGE } from "../constants/messages.js";
+import ordersRepo from "../repositories/orders.repo.js";
+import reviewRepo from "../repositories/reviews.repo.js";
+import userRepo from "../repositories/users.repo.js";
 
 const writeReview = async (reqBody) => {
     try {
@@ -8,7 +9,7 @@ const writeReview = async (reqBody) => {
         if (!await userRepo.findById(userID)) {
             throw new Error(ORDER_MESSAGE.NO_PERMISSION)
         }
-
+        const buyer = ordersRepo.getOrder
         const { reviewer, order_detail, content, create_at, star } = reqBody || {}
 
         const newReview = { reviewer, order_detail, content, create_at, star }
@@ -17,7 +18,7 @@ const writeReview = async (reqBody) => {
         //     ...Object.fromEntries(
         //         Object.entries(reqBody).filter(([key]) => filter.includes(key))
         //     )
-        // }
+        // } // nen dung cach nay khi db phuc tap hon
         return await reviewRepo.writeReview(newReview)
     } catch (error) {
         throw new Error(error.message)

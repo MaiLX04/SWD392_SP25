@@ -39,14 +39,16 @@ accessoriesRouter.get('/allAccessories', wrapAsync(accessoriesController.getAllA
 
 accessoriesRouter.get('/allCategories', wrapAsync(accessoriesController.getAllCategories))   
 
-accessoriesRouter.get('/:id', accessoriesController.getAccessory)
+accessoriesRouter.get('/:id', wrapAsync(accessoriesController.getAccessory))
 
-accessoriesRouter.get('/categories/:id', accessoriesController.getCategory)
+accessoriesRouter.get('/categories/:id', wrapAsync(accessoriesController.getCategory))
 
-accessoriesRouter.delete('/:id', accessoriesController.deleteAccessory)
+accessoriesRouter.delete('/:id', wrapAsync(accessoriesController.deleteAccessory))
 
-accessoriesRouter.get('/:id/reviews', accessoriesController.getAllReview)
+accessoriesRouter.get('/:id/reviews', wrapAsync(accessoriesController.getAllReview))
 
-accessoriesRouter.post('/:id/purchase', accessoriesController.buyAccessory)
+accessoriesRouter.post('/:id/purchase', wrapAsync(accessoriesController.buyAccessory))
+
+accessoriesRouter.post('/:id/newReview', wrapAsync(accessoriesController.writeReview))
 
 export default accessoriesRouter

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import database from "../configs/database"
+import database from "../configs/database.js"
 import dotenv from 'dotenv'
 
 dotenv.config()

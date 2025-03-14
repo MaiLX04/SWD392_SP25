@@ -1,6 +1,6 @@
-import HTTP_STATUS from "../constants/httpStatus"
-import { REVIEW_MESSAGE } from "../constants/messages"
-import { reviewService } from "../services/reviews.services"
+import HTTP_STATUS from "../constants/httpStatus.js"
+import { REVIEW_MESSAGE } from "../constants/messages.js"
+import { reviewService } from "../services/reviews.services.js"
 
 const writeReview = async (req, res) => {
     try {

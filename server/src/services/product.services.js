@@ -1,16 +1,22 @@
 import { ObjectId } from 'mongodb'
-import { PRODUCT_MESSAGE } from '../constants/messages.js'
+import { ORDER_MESSAGE, PRODUCT_MESSAGE } from '../constants/messages.js'
 import accessoriesRepo from '../repositories/accessories.repo.js'
 import categoriesRepo from '../repositories/categories.repo.js'
 import orderDetailsRepo from '../repositories/orderDetail.repo.js'
 import ordersRepo from '../repositories/orders.repo.js'
 import { usersServices } from './users.services.js'
+import accessories from '../models/schemas/Accessories.schema.js'
+import orders from '../models/schemas/Orders.schema.js'
+import order_details from '../models/schemas/Order_Details.schema.js'
+import category from '../models/schemas/AccessoriesCategory.schema.js'
+
 const postAccessories = async (reqBody) => {
   try {
     // process logic base on each project
-    const newProduct = {
+    const newProductData = {
       ...reqBody
     }
+    const newProduct = new accessories(newProductData)
     // call model layer to save into DB
     return await accessoriesRepo.postAccessories(newProduct)
   } catch (error) { throw error }
@@ -54,7 +60,8 @@ const createCategories = async (reqBody) => {
         ...reqBody
       }
       // call model layer to save into DB
-      return await categoriesRepo.createCategories(newCat)
+      const cat = new category(newCat)
+      return await categoriesRepo.createCategories(cat)
     }
   } catch (error) { throw error }
 }
@@ -88,22 +95,32 @@ const buyAccessory = async (reqBody, accessoryID) => {
     const { userID } = reqBody
     const buyer = await usersServices.findUserById(userID)
     if (!buyer) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ORDER_MESSAGE.NO_PERMISSION)
+      throw new Error(ORDER_MESSAGE.NO_PERMISSION)
     }
 
-    const accessories = accessoriesRepo.getAccessorybyID(accessoryID)
+    const accessories = await accessoriesRepo.getAccessorybyID(accessoryID)
     if (!accessories) {
       throw new Error(PRODUCT_MESSAGE.NOT_FOUND)
     }
-
+    
     const { quantity } = reqBody
+    // degug
+    console.log('acc..: ', accessories)
+    console.log('quantity: ', quantity)
+    console.log('acc..: ', accessories.price)
+
+    // end debug
     const orderData = {
       _id: new ObjectId(),
       buyer: buyer._id,
       total_price: quantity * accessories.price
     }
-    const newOrder = await ordersRepo.createOrder(orderData)
-
+    const order = new orders(orderData)
+    const newOrder = await ordersRepo.createOrder(order)
+    //
+    console.log('neworder', newOrder)
+    console.log('total: ', orderData.total_price)
+    //
     const detailData = {
       _id: new ObjectId(),
       order: orderData._id,
@@ -112,7 +129,8 @@ const buyAccessory = async (reqBody, accessoryID) => {
       price: accessories.price,
       review: null
     }
-    const newOrderDetail = await orderDetailsRepo.createOrdersDetail(detailData)
+    const detail = new order_details(detailData)
+    const newOrderDetail = await orderDetailsRepo.createOrdersDetail(detail)
 
     return {
       order: newOrder,

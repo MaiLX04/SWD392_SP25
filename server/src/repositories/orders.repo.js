@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb"
 import database from "../configs/database.js"
 import dotenv from 'dotenv'
-import { ORDER_MESSAGE } from "../constants/messages.js"
 
 dotenv.config()
 
@@ -28,6 +27,12 @@ class OrdersRepo {
             {status: newStatus}
         )
     }
+
+    async getAllUserOrders(userID){
+        return await this.db.find({buyer : userID}).toArray()
+    }
+
+    
 }
 
 const ordersRepo = new OrdersRepo()
