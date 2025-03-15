@@ -1,36 +1,85 @@
-.userlist {
-    background: #eee;
-    display: grid;
-    grid-template-columns: repeat(5, 4fr);
-    grid-template-rows: repeat(3, auto); /* Added to create 5 rows */
-    text-align: center;
-    border: 1px solid #000;
+/* usermanage.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-
-.userlist > div {
-    background: #ccc;
-    width: 300px;
-    padding: 50px;
-    margin: 20px;
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
 }
 
-.editBtn {
-    background: black;
-    color: #fff;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    width:80px;
-    grid-row: span 2;
+.user-manage-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.deleteBtn {
-    background: red;
-    color: #fff;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    width:80px;
-    grid-row: span 2;
+.user-manage-popup h2 {
+  margin: 0 0 10px;
+}
+
+.user-manage-popup input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.user-manage-popup button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-manage-popup button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+}
+
+.user-manage-popup button[type="button"] {
+  background-color: #f44336;
+  color: white;
+}
+
+.user-manage-popup button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Style cho table nếu cần */
+.user_manage_page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user_manage_page th,
+.user_manage_page td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.add_button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.delete_button {
+  background-color: #f44336;
+  color: white;
 }
