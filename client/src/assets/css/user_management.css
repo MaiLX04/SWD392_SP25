@@ -1,20 +1,117 @@
-.userlist {
-    background: #eee;
-    display: grid;
-    grid-template-columns: repeat(5, 4fr);
-    grid-template-rows: repeat(3, auto); /* Added to create 5 rows */
+/* UserList.css */
+.user-list {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  caption {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
     text-align: center;
-    border: 1px solid #000;
-}
-
-
-.userlist > div {
-    background: #ccc;
-    width: 300px;
-    padding: 50px;
-    margin: 20px;
-}
-
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
+  
+  .user-table thead {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .user-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  
+  .user-table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .user-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .user-table td {
+    vertical-align: middle;
+  }
+  
+  /* Button Styling */
+  .user-table button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  
+  /* Edit Button */
+  .user-table button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .user-table button:first-child:hover {
+    background-color: #45a049;
+  }
+  
+  /* Delete Button */
+  .user-table button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .user-table button:last-child:hover {
+    background-color: #da190b;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .user-list {
+      margin: 10px;
+      padding: 15px;
+    }
+  
+    .user-table th,
+    .user-table td {
+      padding: 10px;
+      font-size: 0.85rem;
+    }
+  
+    .user-table button {
+      padding: 5px 10px;
+      margin: 2px;
+    }
+  
+    /* Stack table for very small screens */
+    .user-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  
+  /* Optional: Hide password by default for security */
+  .user-table td:nth-child(3) {
+    color: #666;
+    font-family: monospace;
+  }
 .editBtn {
     background: black;
     color: #fff;
