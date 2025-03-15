@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Tradelist from "./pages/Tradelist";
 import UserManagement from "./pages/user_management";
 import Checkout from "./pages/Checkout";
+import UploadImage from "./pages/UploadImage";
 
 function App() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
         <Route path="/user_management" element={<UserManagement />} />
         <Route path="/accessory_management" element={<AccessoryManagement />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/uploaditem" element={<UploadImage />} />
       </Routes>
     </div>
   );

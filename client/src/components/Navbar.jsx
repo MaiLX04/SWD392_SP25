@@ -75,6 +75,14 @@ export const Navbar = () => {
                 Accessory Manage
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/uploaditem"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Upload Item
+              </NavLink>
+            </li>
           </>
         )}
 
