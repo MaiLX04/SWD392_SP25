@@ -28,6 +28,11 @@ const UserManagePopup = ({
           placeholder="Email"
           required
         />
+        <select name="role" value={formData.role} onChange={handleInputChange}>
+          <option value="">Select a role</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
         <input
           type="password"
           name="password"

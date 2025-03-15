@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../assets/css/user_management.css";
+import "../assets/css/usermanage.css";
 import UserManagePopup from "../components/usermanage.jsx";
 import {
   createUser,
@@ -15,6 +15,7 @@ const UserManagement = () => {
     username: "",
     email: "",
     password: "",
+    role: "", // Added role to formData
   });
   const [editingId, setEditingId] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -54,9 +55,9 @@ const UserManagement = () => {
       }
 
       if (success) {
-        setFormData({ username: "", email: "", password: "" });
+        setFormData({ username: "", email: "", password: "", role: "" });
         setEditingId(null);
-        setShowPopup(false); // Đóng modal sau khi submit
+        setShowPopup(false);
         loadUsers();
       }
     } finally {
@@ -81,27 +82,34 @@ const UserManagement = () => {
     setFormData({
       username: user.username,
       email: user.email,
-      password: "", // Để trống password khi edit
+      password: "",
+      role: user.role,
     });
-    setShowPopup(true); // Hiển thị modal khi nhấn Edit
+    setShowPopup(true);
   };
 
   const handleAdd = () => {
     setEditingId(null);
-    setFormData({ username: "", email: "", password: "" });
-    setShowPopup(true); // Hiển thị modal khi nhấn "+"
+    setFormData({ username: "", email: "", password: "", role: "" });
+    setShowPopup(true);
   };
 
   const closePopup = () => {
     setShowPopup(false);
     setEditingId(null);
-    setFormData({ username: "", email: "", password: "" });
+    setFormData({ username: "", email: "", password: "", role: "" });
   };
 
   return (
     <div>
-      <h1>User Management</h1>
-
+      <div className="header">
+        <h1>User Management</h1>
+        <div className="button-group">
+          <button className="add_button" onClick={handleAdd}>
+            <span>+</span> Add New User
+          </button>
+        </div>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -109,33 +117,33 @@ const UserManagement = () => {
           <table>
             <thead>
               <tr>
+                <th>#</th>
                 <th>User</th>
                 <th>Email</th>
-                <th>
-                  <button className="add_button" onClick={handleAdd}>
-                    +
-                  </button>
-                </th>
+                <th>Role</th>
+                <th className="button">Action</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {users.map((user, index) => (
                 <tr key={user.id}>
+                  <td>{index + 1}</td>
                   <td>{user.username}</td>
                   <td>{user.email}</td>
+                  <td>{user.role}</td>
                   <td>
                     <div className="button">
                       <button
-                        className="add_button"
+                        className="edit-icon"
                         onClick={() => handleEdit(user)}
                       >
-                        Edit
+                        ⚙️
                       </button>
                       <button
-                        className="delete_button"
+                        className="delete-icon"
                         onClick={() => handleDelete(user.id)}
                       >
-                        Delete
+                        ❌
                       </button>
                     </div>
                   </td>
