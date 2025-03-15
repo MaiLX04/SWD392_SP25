@@ -8,7 +8,8 @@ import offersRouter from './routes/offers.routers.js'
 import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import database from './configs/database.js'
-// import YAML from 'yaml'
+
+import YAML from 'yaml'
 // import fs from 'fs'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
@@ -61,7 +62,14 @@ app.use(cors({
 
 // Enable JSON middleware
 app.use(express.json())
+
+// const openapiSpecification = './swagger-output.json';
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
+// Serve Swagger UI
+// const swaggerDocument = require('./swagger-output.json'); // Đường dẫn đến tệp JSON
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
 // Setup routes
 app.use('/user', usersRouter)
 app.use('/accessories', accessoriesRouter)

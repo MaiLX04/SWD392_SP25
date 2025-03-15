@@ -175,6 +175,8 @@ paths:
       summary: Create an offer
       description: Create a new offer for a trade request
       operationId: createOffer
+      security:
+        - BearerAuth: []
       requestBody:
         description: Offer details
         content:
@@ -207,6 +209,8 @@ paths:
       summary: Get all offers
       description: Retrieve a list of all offers
       operationId: getAllOffers
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: A list of offers
@@ -233,6 +237,8 @@ paths:
       summary: Get offer by ID
       description: Retrieve an offer by its ID
       operationId: getOfferById
+      security:
+        - BearerAuth: []
       parameters:
         - name: offerId
           in: path
@@ -275,6 +281,8 @@ paths:
       summary: Get all offers by request ID
       description: Retrieve a list of all offers for a specific request
       operationId: getAllOffersByRequestId
+      security:
+        - BearerAuth: []
       parameters:
         - name: requestId
           in: path
@@ -309,6 +317,8 @@ paths:
       summary: Update an offer
       description: Update an existing offer by its ID
       operationId: updateOffer
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -373,6 +383,8 @@ paths:
       summary: Update offer status
       description: Update the status of an existing offer
       operationId: updateOfferStatus
+      security:
+        - BearerAuth: []
       parameters:
         - name: offerId
           in: path
@@ -442,6 +454,8 @@ paths:
       summary: Post a new accessory
       description: Create a new accessory
       operationId: postAccessories
+      security:
+        - BearerAuth: []
       requestBody:
         description: Accessory details
         content:
@@ -473,6 +487,8 @@ paths:
       summary: Create a new accessory category
       description: Create a new category for accessories
       operationId: createAccessoryCategory
+      security:
+        - BearerAuth: []
       requestBody:
         description: Category details
         content:
@@ -522,6 +538,8 @@ paths:
       summary: Get all accessories
       description: Retrieve a list of all accessories
       operationId: getAllAccessories
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: A list of accessories
@@ -548,6 +566,8 @@ paths:
       summary: Get all accessory categories
       description: Retrieve a list of all accessory categories
       operationId: getAllCategories
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: A list of accessory categories
@@ -574,6 +594,8 @@ paths:
       summary: Get accessory by ID
       description: Retrieve a single accessory by its ID
       operationId: getAccessoryById
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -615,6 +637,8 @@ paths:
       summary: Update an accessory
       description: Update an existing accessory by its ID
       operationId: updateAccessory
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -665,6 +689,8 @@ paths:
       summary: Get category by ID
       description: Retrieve a single category by its ID
       operationId: getCategoryById
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -706,6 +732,8 @@ paths:
       summary: Update a category
       description: Update an existing category by its ID
       operationId: updateCategory
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
