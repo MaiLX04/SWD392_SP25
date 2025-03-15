@@ -6,6 +6,7 @@ import offersRouter from './routes/offers.routers.js'
 import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import database from './configs/database.js'
+import paymentRouter from './routes/payments.routers.js'
 
 //dựng server
 const app = express()
@@ -24,6 +25,8 @@ app.use('/accessories', accessoriesRouter)
 app.use('/trade-requests', tradeRequestsRouter)
 
 app.use('/offers', offersRouter)
+
+app.use('/payment', paymentRouter)
 
 //trở thành error handler cho cả app nên nó nằm cuối app để là điểm tập kết cuối cùng
 //xử lí lỗi tổng
