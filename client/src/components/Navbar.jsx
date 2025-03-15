@@ -42,7 +42,7 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/accessory"
+            to="/Accessory"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Accessory
