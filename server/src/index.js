@@ -8,6 +8,9 @@ import tradeRequestsRouter from './routes/tradeRequests.routers.js'
 import { initFolder } from './utils/file.js'
 import database from './configs/database.js'
 import orderRoutes from './routes/orders.routes.js'
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from '../swagger-output.json' with { type: "json" }
+import bodyParser from 'body-parser'
 
 //dựng server
 const app = express()
@@ -17,6 +20,9 @@ database.connect()
 initFolder()
 app.use(express.json()) //cho server xài middleware biến đổi json
 //cho server kết nối các Router
+app.use(bodyParser.json())
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 app.use('/user', usersRouter)
 
 app.use('/accessories', accessoriesRouter)
