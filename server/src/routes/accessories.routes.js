@@ -7,21 +7,7 @@ import databaseServices from '../services/database.services.js'
 //tạo Router
 const accessoriesRouter = Router()
 
-/*
-    description: Post a new Accessories
-    path: /postAccessories
-    method: POST
-    body: {
-        type: accessories_categories,
-        name: string,
-        description: String,
-        price: double,
-        photo: string,
-        status: string,
-        date_added: string (ISO8601 format),
-        owner: user
-    }
- */
+// router.post('/postAccessories', productValidator.AccessoriesValidator, accessoriesController.postAccessories);
 accessoriesRouter.post('/postAccessories', productValidator.AccessoriesValidator,
     wrapAsync(accessoriesController.postAccessories))
 

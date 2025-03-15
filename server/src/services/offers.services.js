@@ -31,8 +31,8 @@ const createOffer = async (payload) => {
     console.log('Received payload:', payload)
 
     // Ensure that requesterId and requestId are valid ObjectId
-    if (!ObjectId.isValid(payload.requesterId) || !ObjectId.isValid(payload.requestId)) {
-      throw new Error('Invalid ObjectId format for requesterId or requestId')
+    if (!ObjectId.isValid(payload.userId) || !ObjectId.isValid(payload.requestId)) {
+      throw new Error('Invalid ObjectId format for userId or requestId')
     }
 
     const newOffer = {
@@ -40,8 +40,8 @@ const createOffer = async (payload) => {
       offerItem: payload.offerItem,
       offerDescription: payload.offerDescription,
       offerImage: payload.offerImage,
-      requesterId: new ObjectId(payload.requesterId), // Expecting valid ObjectId from request
-      requestId: new ObjectId(payload.requestId), // Expecting valid ObjectId from request
+      userId: new ObjectId(payload.userId), // Use userId
+      requestId: new ObjectId(payload.requestId),
       offerStatus: 'Pending',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -98,6 +98,20 @@ const getOfferByOfferId = async (offerId) => {
   }
 }
 
+// const getRequestByOfferId = async (offerId) => {
+//   try {
+//     const offer = await offerRepo.getByOfferId(offerId); // Get the offer
+//     if (!offer) {
+//       return null; // Offer not found
+//     }
+//     const request = await requestRepo.getByRequestId(offer.requestId); // Get the request
+//     return request;
+//   } catch (error) {
+//     console.error('Error getting request by offer ID:', error);
+//     throw error;
+//   }
+// };
+
 const updateOfferByOfferId = async (offerId, updates) => {
   try {
     const result = await offerRepo.updateByOfferId(offerId, updates)
@@ -108,10 +122,21 @@ const updateOfferByOfferId = async (offerId, updates) => {
   }
 }
 
+const updateOfferStatus = async (offerId, newStatus) => {
+  try {
+    const result = await offerRepo.updateOfferStatus(offerId, newStatus);
+    return result;
+  } catch (error) {
+    console.error('Error updating offer status:', error);
+    throw error;
+  }
+};
+
 export const offersServices = {
   createOffer,
   getAllOffersByRequestId,
   getAllOffers,
   getOfferByOfferId,
-  updateOfferByOfferId
+  updateOfferByOfferId,
+  updateOfferStatus
 }

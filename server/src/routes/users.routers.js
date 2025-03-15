@@ -18,6 +18,8 @@ const usersRouter = Router()
         date_of_birth: string nhưng có dạng ISO8601
     }
  */
+
+   
 usersRouter.post('/register', registerValidator, wrapAsync(userController.register))
 
 /*
@@ -28,7 +30,7 @@ usersRouter.post('/register', registerValidator, wrapAsync(userController.regist
         email: string,
         password: string
     }
-*/
+*/ 
 usersRouter.post('/login', loginValidator, wrapAsync(userController.login))
 
 /*

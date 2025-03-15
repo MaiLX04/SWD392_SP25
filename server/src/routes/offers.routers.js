@@ -7,8 +7,11 @@ import { createOfferValidator } from '../middlewares/offers.middlewares.js';
 const offersRouter = Router();
 
 offersRouter.post('/', createOfferValidator, wrapAsync(offersController.createOffer));
-offersRouter.get('/listRequest/:requestId', wrapAsync(offersController.getAllOffersByRequestId)); // Changed route
+offersRouter.get('/request/:requestId', wrapAsync(offersController.getAllOffersByRequestId)); // Changed route
 offersRouter.get('/', wrapAsync(offersController.getAllOffers)); // Route to get all offers
 offersRouter.get('/:offerId', wrapAsync(offersController.getOfferByOfferId)); // Route to get offer by ID
-offersRouter.put('/:offerId', wrapAsync(offersController.updateOfferByOfferId));
+offersRouter.put('/:id', wrapAsync(offersController.updateOfferByOfferId));
+offersRouter.put('/:offerId/status', wrapAsync(offersController.updateOfferStatus));
+// offersRouter.patch('/:offerId/status', wrapAsync(offersController.updateOfferStatus));
+offersRouter.patch('/:offerId/status/:offerStatus', wrapAsync(offersController.updateOfferStatus));
 export default offersRouter;

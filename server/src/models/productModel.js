@@ -3,7 +3,7 @@ import databaseServices from '../services/database.services.js'
 
 const postAccessories = async (data) => {
     try {
-        return await databaseServices.accessories.insertOne(data) 
+        return await databaseServices.accessories_all.insertOne(data) 
     } catch (error) { throw new Error(error) }
 }
 

@@ -68,3 +68,23 @@ export class MediaType {
     return this._Video
   }
 }
+
+export class OfferStatus {
+  static _Pending = 'Pending';
+  static _Accepted = 'Accepted';
+  static _Declined = 'Declined';
+  static _Completed = 'Completed';
+
+  static get Pending() {
+    return this._Pending;
+  }
+  static get Accepted() {
+    return this._Accepted;
+  }
+  static get Declined() {
+    return this._Declined;
+  }
+  static get Completed() {
+    return this._Completed;
+  }
+}
