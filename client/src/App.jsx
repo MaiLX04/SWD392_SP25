@@ -7,6 +7,7 @@ import AccessoryDetail from "./pages/AccessoryDetail"; // ✅ Thêm lại Access
 import AccessoryManagement from "./pages/accessory_management";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ViewScreen from "./pages/ViewScreen";
 import Register from "./pages/Register";
 import Tradelist from "./pages/Tradelist";
 import UserManagement from "./pages/user_management";
@@ -23,11 +24,12 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/tradelist" element={<Tradelist />} />
         <Route path="/accessory" element={<Accessory />} />
-        <Route path="/accessory/:id" element={<AccessoryDetail />} /> {/* ✅ Thêm lại route này */}
+        <Route path="/accessory/:id" element={<AccessoryDetail />} /> 
         <Route path="/login" element={<Login hideNavBar={true} />} />
         <Route path="/register" element={<Register hideNavBar={true} />} />
         <Route path="/user_management" element={<UserManagement />} />
         <Route path="/accessory_management" element={<AccessoryManagement />} />
+        <Route path="/product/:id" element={<ViewScreen />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
